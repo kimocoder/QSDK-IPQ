@@ -444,10 +444,10 @@ if KERNEL_MODULE_SIG
 choice
 	prompt "Which hash algorithm should kernel modules be signed with?"
 	depends on KERNEL_MODULE_SIG
+	default KERNEL_MODULE_SIG_SHA1 if SIGN_KERNEL_MODULES
 
 	config KERNEL_MODULE_SIG_SHA1
 		bool "Sign modules with SHA-1"
-		default y if SIGN_KERNEL_MODULES
 
 	config KERNEL_MODULE_SIG_SHA224
 		bool "Sign modules with SHA-224"

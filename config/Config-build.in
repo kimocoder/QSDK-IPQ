@@ -113,6 +113,12 @@ menu "Global build settings"
 		  Useful for release builds, so that kernel issues can be debugged offline
 		  later.
 
+	config BUILD_SHORTENED_PATH
+		bool "Enable short build paths"
+		default n
+		help
+		  If enabled, build_dir and staging_dir paths will be shortened.
+
 	menu "Kernel build options"
 
 	source "config/Config-kernel.in"

@@ -8,6 +8,8 @@
 
 touch /etc/config/network
 
+CFG=/etc/board.json
+
 . /lib/functions/uci-defaults.sh
 
 ipq807x_setup_interfaces()

@@ -22,8 +22,8 @@ NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc -kmod-qca-nss-drv-igs kmod-qca-nss
 	kmod-qca-nss-drv-tunipip6 kmod-qca-nss-drv-l2tpv2 kmod-qca-nss-drv-pptp \
 	-kmod-qca-nss-drv-map-t kmod-qca-nss-drv-lag-mgr \
 	kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-gre kmod-qca-nss-drv-pppoe \
-	kmod-qca-nss-drv-ovpn-mgr kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr -kmod-qca-nss-drv-netlink \
-	kmod-qca-ovsmgr -kmod-qca-nss-drv-match -kmod-qca-nss-drv-mirror
+	kmod-qca-nss-drv-ovpn-mgr kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr kmod-qca-nss-drv-netlink \
+	kmod-qca-ovsmgr -kmod-qca-nss-drv-match kmod-qca-nss-drv-mirror
 
 NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi -kmod-qca-nss-cfi-ocf -kmod-qca-nss-drv-ipsecmgr -kmod-crypto-ocf -kmod-qca-nss-drv-ipsecmgr-klips
 
@@ -58,7 +58,7 @@ TEST_TOOLS:=ethtool i2c-tools tcpdump
 UTILS:=file luci-app-samba rng-tools profilerd
 
 COREBSP_UTILS:=pm-utils wififw_mount_script qca-thermald-10.4 qca-qmi-framework qca-time-services \
-	-qca-wlanfw-upgrade dashboard
+	qca-wlanfw-upgrade dashboard
 
 FAILSAFE:= kmod-bootconfig
 
@@ -119,11 +119,11 @@ define Profile/QSDK_Premium
 		$(NSS_STANDARD) $(UTILS) $(NETWORKING) $(CD_ROUTER) $(NSS_CLIENTS_STANDARD) \
 		$(QCA_ECM_PREMIUM) $(NSS_CRYPTO) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
 		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(HW_CRYPTO) $(IPSEC) $(MAP_PKGS) $(MINIDUMP) \
-		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC)
+		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC)$(NSS_USERSPACE)
 endef
 
 #		$(CNSS_DIAG) kmod-art2 \
-#		$(NSS_USERSPACE) $(NSS_RMNET) \
+#		$(NSS_RMNET) \
 #		$(QCA_EDMA) \
 #		$(QCA_RFS) $(SHORTCUT_FE) \
 #		$(QCA_MAD)

@@ -83,8 +83,7 @@ endef
 CPU := $(patsubst x86_64,amd64,$(patsubst x86,i386,$(patsubst um,$(ARCH),$(LINUX_KARCH))))
 
 CONFIGURE_VARS += \
-	UNAME_R=$(LINUX_VERSION) \
-	PERL=/usr/local/bin/perl
+	UNAME_R=$(LINUX_VERSION)
 
 ifeq ($(CONFIG_ARCH_64BIT),y)
 	CONFIGURE_ARGS += \

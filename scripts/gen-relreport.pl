@@ -461,7 +461,7 @@ sub getDDRSize {
 }
 
 sub write_output_xml($) {
-    my @pkgs_list = values \%QSDKPKGS;
+    my @pkgs_list = values %QSDKPKGS;
     my $xml_list = { package => \@pkgs_list } ;
     XMLout( $xml_list,
             OutputFile => $_,

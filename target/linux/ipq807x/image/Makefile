@@ -26,7 +26,7 @@ endef
 define sizecheck
 	@[ $$(($(subst k,* 1024,$(subst m, * 1024k,$(1))))) -ge "$$(stat -c%s $(2))" ] || { \
 		echo "WARNING: Image file $(2) is too big, size is $$(stat -c%s $(2)) compare to max allowed $(1)" >&2; \
-		rm -f $(2); \
+		grep -w CONFIG_KERNEL_KASAN=y $(TOPDIR)/.config || rm -f $(2); \
 	}
 endef
 

@@ -23,7 +23,7 @@ NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc -kmod-qca-nss-drv-igs kmod-qca-nss
 	kmod-qca-nss-drv-map-t kmod-qca-nss-drv-lag-mgr \
 	kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-gre kmod-qca-nss-drv-pppoe \
 	kmod-qca-nss-drv-ovpn-mgr kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr kmod-qca-nss-drv-netlink \
-	kmod-qca-ovsmgr -kmod-qca-nss-drv-match kmod-qca-nss-drv-mirror
+	kmod-qca-ovsmgr kmod-qca-nss-drv-match kmod-qca-nss-drv-mirror
 
 NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi -kmod-qca-nss-cfi-ocf kmod-qca-nss-drv-ipsecmgr -kmod-crypto-ocf -kmod-qca-nss-drv-ipsecmgr-klips
 
@@ -77,7 +77,7 @@ CD_ROUTER:=kmod-ipt-ipopt kmod-bonding kmod-nat-sctp lacpd \
 QOS:=tc kmod-sched kmod-sched-core kmod-sched-connmark kmod-ifb iptables \
 	iptables-mod-filter iptables-mod-ipopt iptables-mod-conntrack-extra
 
-MAP_PKGS:=-map-t 464xlat tayga
+MAP_PKGS:=map 464xlat tayga
 
 HYFI:=hyfi hyfi-ui
 

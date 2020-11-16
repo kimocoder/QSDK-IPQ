@@ -110,6 +110,7 @@ sub xref_packages() {
           # Feeds (subdir) is set to an empty string for packages in openwrt.git
                 subdir      => $subdir,
                 version     => $package{$pkg}->{version},
+                license     => $package{$pkg}->{license},
                 description => $package{$pkg}->{description},
                 source      => $package{$pkg}->{source},
                 isIntTarball      => $package{$pkg}->{isIntTarball},
@@ -230,7 +231,7 @@ sub WriteDataToExcel
     # Fill-in the titles
     my @col = (
         "SRC", "PACKAGE", "VARIANT", "FEED", "SUBSYSTEM",
-        "TARBALL", "VERSION", "DESCRIPTION", "FLASHSIZE", "DDRSIZE"
+        "TARBALL", "VERSION", "LICENSE", "DESCRIPTION", "FLASHSIZE", "DDRSIZE"
     );
     my $colid = 0;
     foreach (@col) {
@@ -278,6 +279,8 @@ sub WriteDataToExcel
 	}
         $worksheet->write_string( $row, $col++, $curpkg->{version}, $f_data )
           unless !exists( $curpkg->{version} );
+        $worksheet->write_string( $row, $col++, $curpkg->{license}, $f_data )
+	  unless !exists( $curpkg->{license} );
 
         $worksheet->write( $row, $col++, $curpkg->{description}, $f_desc );
 
@@ -412,6 +415,8 @@ DDRSIZE:
 	    }
             $worksheet->merge_range( $start_merge, 6, $row - 1, 6,
                 $prevpkg->{version}, $f_data );
+	    $worksheet->merge_range( $start_merge, 7, $row - 1, 7,
+                $prevpkg->{license}, $f_data );
             $start_merge = 0;
         }
         $prevFeed = $curFeed;

@@ -418,7 +418,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  #define D_SHOW_OCC           LOGLEV(4, 51, 0)        /* show options compatibility string */
 --- /dev/null
 +++ b/src/openvpn/dca.c
-@@ -0,0 +1,946 @@
+@@ -0,0 +1,961 @@
 +/*
 + **************************************************************************
 + * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
@@ -672,6 +672,9 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
 +void dca_validate_options(const struct options *options, const struct connection_entry *ce)
 +{
 +    int dev;
++#ifdef ENABLE_CRYPTO
++    char *ciphername, *authname;
++#endif
 +
 +    /*
 +     * DCA supports only TUN mode.
@@ -701,10 +704,22 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
 +    if (options->shared_secret_file)
 +        msg (M_USAGE, "--static cannot be used with --enable-dca");
 +
-+    if (dca_crypto_alg_get(options->ciphername, options->authname) < 0)
++    ciphername = options->ciphername;
++    authname = options->authname;
++
++    /*
++     * check if ciphername or authname are set to none
++     */
++    if (ciphername && !strncmp(ciphername, "none", 4))
++        ciphername = NULL;
++
++    if (authname && !strncmp(authname, "none", 4))
++        authname = NULL;
++
++    if (dca_crypto_alg_get(ciphername, authname) < 0)
 +    {
 +        msg (M_USAGE, "--cipher %s, --auth %s is not supported with --enable-dca",
-+                options->ciphername, options->authname);
++                ciphername, authname);
 +    }
 +#endif
 +    /*

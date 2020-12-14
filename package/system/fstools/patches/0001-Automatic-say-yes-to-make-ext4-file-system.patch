@@ -13,7 +13,16 @@ diff --git a/libfstools/rootdisk.c b/libfstools/rootdisk.c
 index 5a6dcb9..c80dddd 100644
 --- a/libfstools/rootdisk.c
 +++ b/libfstools/rootdisk.c
-@@ -272,7 +272,7 @@ static int rootdisk_volume_init(struct volume *v)
+@@ -30,7 +30,7 @@
+ #include <linux/loop.h>
+ 
+ #define ROOTDEV_OVERLAY_ALIGN	(64ULL * 1024ULL)
+-#define F2FS_MINSIZE		(100ULL * 1024ULL * 1024ULL)
++#define F2FS_MINSIZE		(150ULL * 1024ULL * 1024ULL)
+ 
+ struct squashfs_super_block {
+ 	uint32_t s_magic;
+@@ -272,7 +272,7 @@ static int rootdisk_volume_init(struct v
  		if (rootdisk_use_f2fs(p))
  			snprintf(str, sizeof(str), "mkfs.f2fs -q -l rootfs_data %s", v->blk);
  		else

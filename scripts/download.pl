@@ -95,6 +95,7 @@ $hash_cmd or ($file_hash eq "skip") or die "Cannot find appropriate hash command
 sub download
 {
 	my $mirror = shift;
+	my $download_filename = shift;
 
 	$mirror =~ s!/$!!;
 
@@ -141,7 +142,7 @@ sub download
 			}
 		};
 	} else {
-		my @cmd = download_cmd("$mirror/$url_filename");
+		my @cmd = download_cmd("$mirror/$download_filename");
 		print STDERR "+ ".join(" ",@cmd)."\n";
 		open(FETCH_FD, '-|', @cmd) or die "Cannot launch curl or wget.\n";
 		$hash_cmd and do {
@@ -281,7 +282,7 @@ while (!$ok) {
 	my $mirror = shift @caf_mirrors;
 	$mirror or last;
 
-	download($mirror);
+	download($mirror,$url_filename);
 	-f "$target/$filename" and $ok = 1;
 }
 
@@ -290,11 +291,32 @@ if(!-f "$target/$filename") {
 	#exit -1;
 }
 
+if (-f "$target/$filename") {
+	$hash_cmd and do {
+		if (system("cat '$target/$filename' | $hash_cmd > '$target/$filename.hash'")) {
+			die "Failed to generate hash for $filename\n";
+		}
+
+		my $sum = `cat "$target/$filename.hash"`;
+		$sum =~ /^(\w+)\s*/ or die "Could not generate file hash\n";
+		$sum = $1;
+
+		cleanup();
+		exit 0 if $sum eq $file_hash;
+
+		die "Hash of the local file $filename does not match (file: $sum, requested: $file_hash) - deleting download.\n";
+		unlink "$target/$filename";
+	};
+}
+
 while (!-f "$target/$filename") {
 	my $mirror = shift @mirrors;
 	$mirror or die "No more mirrors to try - giving up.\n";
 
-	download($mirror);
+	download($mirror, $url_filename);
+	if (!-f "$target/$filename" && $url_filename ne $filename) {
+		download($mirror, $filename);
+	}
 }
 
 $SIG{INT} = \&cleanup;

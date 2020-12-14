@@ -59,7 +59,7 @@
 	],
 	[ "if",
                 [ "eq", "SUBSYSTEM",
-                        [ "dump_q6v5", "devcoredump", "minidump", "mhi_uci" ]
+                        [ "devcoredump", "minidump" ]
                 ],
                 [ "exec", "/sbin/hotplug-call", "%SUBSYSTEM%" ]
         ],

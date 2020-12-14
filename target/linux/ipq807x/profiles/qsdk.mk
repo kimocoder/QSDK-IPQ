@@ -120,6 +120,8 @@ SWITCH_OPEN_PKGS:= kmod-switch-ar8216 swconfig
 
 QMI_SAMPLE_APP:=kmod-qmi_sample_client
 
+EMESH_SP:=kmod-emesh-sp
+
 define Profile/QSDK_Open
 	NAME:=Qualcomm-Atheros SDK Open Profile
 	PACKAGES:=$(OPENWRT_STANDARD) $(SWITCH_SSDK_NOHNAT_PKGS) $(NSS_COMMON) \
@@ -147,7 +149,7 @@ define Profile/QSDK_Premium
 		$(QCA_ECM_PREMIUM) $(NSS_CRYPTO) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
 		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(HW_CRYPTO) $(IPSEC) $(MAP_PKGS) $(MINIDUMP) \
 		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC) $(NSS_USERSPACE) $(NSS_RMNET) $(SHORTCUT_FE) \
-		$(QCA_MAD)
+		$(QCA_MAD) $(EMESH_SP)
 endef
 
 #		$(CNSS_DIAG) kmod-art2 \

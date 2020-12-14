@@ -40,9 +40,6 @@ define Build/Prepare
 	$(CP) $(LINUX_DIR)/tools/perf/* $(PKG_BUILD_DIR)/
 endef
 
-EXTRA_CFLAGS += $(FPIC) \
-		-I$(PKG_BUILD_DIR)
-
 MAKE_FLAGS = \
 	ARCH="$(LINUX_KARCH)" \
 	NO_LIBPERL=1 \
@@ -60,7 +57,6 @@ MAKE_FLAGS = \
 	CC="$(TARGET_CC)" \
 	LD="$(TARGET_CROSS)ld" \
 	CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
-	EXTRA_CFLAGS="$(EXTRA_CFLAGS)" \
 	LDFLAGS="$(TARGET_LDFLAGS)" \
 	$(if $(findstring c,$(OPENWRT_VERBOSE)),V=1,V='') \
 	WERROR=0 \

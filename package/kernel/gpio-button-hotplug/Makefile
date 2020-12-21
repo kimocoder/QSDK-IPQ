@@ -34,7 +34,7 @@ endef
 
 MAKE_OPTS:= \
 	$(KERNEL_MAKE_FLAGS) \
-	M="$(PKG_BUILD_DIR)"
+	SUBDIRS="$(PKG_BUILD_DIR)"
 
 define Build/Compile
 	$(MAKE) -C "$(LINUX_DIR)" \

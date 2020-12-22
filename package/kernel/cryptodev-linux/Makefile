@@ -44,9 +44,6 @@ endef
 define Build/Configure
 endef
 
-KERNEL_MAKE_FLAGS+= \
-	CRYPTODEV_CFLAGS=-Wno-vla
-
 define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		$(KERNEL_MAKE_FLAGS) \

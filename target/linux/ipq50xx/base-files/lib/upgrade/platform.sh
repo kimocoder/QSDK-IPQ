@@ -392,14 +392,22 @@ platform_do_upgrade() {
 	case "$board" in
 	qcom,ipq5018-ap-mp02.1 |\
 	qcom,ipq5018-ap-mp03.1 |\
-	qcom,ipq5018-mp03.1-c2 |\
-	qcom,ipq5018-mp03.3 |\
-	qcom,ipq5018-mp03.3-c2 |\
+	qcom,ipq5018-ap-mp03.1-c2 |\
+	qcom,ipq5018-ap-mp03.1-c3 |\
+	qcom,ipq5018-ap-mp03.3 |\
+	qcom,ipq5018-ap-mp03.3-c2 |\
+	qcom,ipq5018-ap-mp03.4-c1 |\
+	qcom,ipq5018-ap-mp03.4-c2 |\
+	qcom,ipq5018-ap-mp03.5-c1 |\
+	qcom,ipq5018-ap-mp03.5-c2 |\
+	qcom,ipq5018-ap-mp03.6-c1 |\
+	qcom,ipq5018-ap-mp03.6-c2 |\
 	qcom,ipq5018-db-mp02.1 |\
 	qcom,ipq5018-db-mp03.1 |\
 	qcom,ipq5018-db-mp03.1-c2 |\
 	qcom,ipq5018-db-mp03.3 |\
-	qcom,ipq5018-db-mp03.3-c2)
+	qcom,ipq5018-db-mp03.3-c2 |\
+	qcom,ipq5018-tb-mp04)
 		for sec in $(print_sections $1); do
 			flash_section ${sec}
 		done

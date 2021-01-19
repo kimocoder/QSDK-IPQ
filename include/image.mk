@@ -35,7 +35,7 @@ mkfs_target_dir = $(if $(call param_get,pkg,$(1)),$(KDIR)/target-dir-$(call para
 
 KDIR=$(KERNEL_BUILD_DIR)
 KDIR_TMP=$(KDIR)/tmp
-DTS_DIR:=$(LINUX_DIR)/arch/$(LINUX_KARCH)/boot/dts/$(if $(CONFIG_TARGET_ipq807x_generic)$(CONFIG_TARGET_ipq50xx_generic)$(CONFIG_TARGET_ipq90xx_generic),qcom)
+DTS_DIR:=$(LINUX_DIR)/arch/$(LINUX_KARCH)/boot/dts/$(if $(CONFIG_TARGET_ipq807x_generic)$(CONFIG_TARGET_ipq50xx_generic)$(CONFIG_TARGET_ipq60xx_generic)$(CONFIG_TARGET_ipq90xx_generic),qcom)
 
 IMG_PREFIX_EXTRA:=$(if $(EXTRA_IMAGE_NAME),$(call sanitize,$(EXTRA_IMAGE_NAME))-)
 IMG_PREFIX_VERNUM:=$(if $(CONFIG_VERSION_FILENAMES),$(call sanitize,$(VERSION_NUMBER))-)

@@ -161,7 +161,7 @@ define Profile/QSDK_Open
 	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) $(TEST_TOOLS) $(AUDIO) $(VIDEO) \
 		$(COREBSP_UTILS) $(FAILSAFE) $(USB_DIAG) $(SWITCH_SSDK_NOHNAT_PKGS) \
 		$(FTM) $(KPI) $(UTILS) $(NETWORKING) $(EXTRA_NETWORKING) \
-		$(WIFI_OPEN_PKGS) $(USB_ETHERNET) -lacpd  \
+		$(WIFI_OPEN_PKGS) $(USB_ETHERNET) $(NSS_COMMON) $(NSS_STANDARD) -lacpd  \
 		qca-cnss-daemon qca-wifi-hk-fw-hw1-10.4-asic $(CNSS_DIAG) \
 		qrtr $(QMI_SAMPLE_APP) ath11k-fwtest ath11k-qdss libtirpc
 endef

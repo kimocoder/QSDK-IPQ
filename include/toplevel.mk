@@ -122,11 +122,28 @@ config: scripts/config/conf prepare-tmpinfo FORCE
 config-clean: FORCE
 	$(_SINGLE)$(NO_TRACE_MAKE) -C scripts/config clean
 
+define check_config
+	config_target=`grep -oP "CONFIG_TARGET_BOARD[=][\"]\K[a-zA-Z0-9_]*(?=\")" .config`; \
+	printf "$(_G)# Selected target:\t$$config_target$(_N)\n"; \
+	config_subtarget=`grep -oP "CONFIG_TARGET_SUBTARGET[=][\"]\K[a-zA-Z0-9_]*(?=\")" .config`; \
+	printf "$(_G)# Selected subtarget:\t$$config_subtarget$(_N)\n"; \
+	config_profile=`grep -oP "^CONFIG_TARGET_"$$config_target"_"$$config_subtarget"_\K[a-zA-z0-9_]*" .config`; \
+	printf "$(_G)# Selected profile:\t$$config_profile$(_N)\n"; \
+	case $$config_target in \
+		*"ipq"* | *"ar71xx"*) \
+			;; \
+		*) printf "$(_R)# WARNING: Selected target is not IPQ chipset !!!$(_N)\n"; \
+			;; \
+	esac
+	printf "#\n"
+endef
+
 defconfig: scripts/config/conf prepare-tmpinfo FORCE
 	touch .config
 	@if [ ! -s .config -a -e $(HOME)/.openwrt/defconfig ]; then cp $(HOME)/.openwrt/defconfig .config; fi
 	[ -L .config ] && export KCONFIG_OVERWRITECONFIG=1; \
 		$< --defconfig=.config Config.in
+	$(check_config)
 
 confdefault-y=allyes
 confdefault-m=allmod

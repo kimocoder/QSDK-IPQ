@@ -6,7 +6,8 @@ NSS_COMMON:= \
 
 #NSS_EIP197_FW:=
 
-#NSS_STANDARD:=
+NSS_STANDARD:= \
+	qca-nss-fw-al-retail
 
 NSS_ENTERPRISE:= \
 	qca-nss-fw2-enterprise \
@@ -21,7 +22,8 @@ NSS_ENTERPRISE:= \
 	qca-nss-fw-mp-enterprise \
 	qca-nss-fw-cp-enterprise_custA \
 	qca-nss-fw-cp-enterprise_custC \
-	qca-nss-fw-cp-enterprise_custR
+	qca-nss-fw-cp-enterprise_custR \
+	qca-nss-fw-al-enterprise
 
 NSS_MACSEC:= \
 	kmod-qca-nss-macsec \
@@ -106,7 +108,7 @@ COREBSP_UTILS:=pm-utils wififw_mount_script qca-thermald-10.4 qca-qmi-framework 
 
 FAILSAFE:= kmod-bootconfig
 
-NETWORKING:=mcproxy dnsmasq dnsmasq-dhcpv6 bridge ip-full trace-cmd mwan3 \
+NETWORKING:=mcproxy -dnsmasq dnsmasq-dhcpv6 bridge ip-full trace-cmd mwan3 \
 	rp-pppoe-relay iptables-mod-extra iputils-tracepath iputils-tracepath6 \
 	luci-app-upnp luci-app-ddns luci-proto-ipv6 \
 	kmod-nf-nathelper-extra kmod-nf-nathelper \
@@ -186,13 +188,14 @@ define Profile/QSDK_Premium
 	NAME:=Qualcomm Technologies, Inc SDK Premium Profile
 	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) $(TEST_TOOLS) $(COREBSP_UTILS) \
 		$(AQ_PHY) $(FAILSAFE) -lacpd $(USB_DIAG) $(KPI) $(UTILS) \
-		$(MINIDUMP) $(SWITCH_SSDK_PKGS) $(CD_ROUTER)
+		$(MINIDUMP) $(SWITCH_SSDK_PKGS) $(CD_ROUTER) \
+		$(NSS_COMMON) $(NSS_STANDARD) $(QCA_ECM_PREMIUM) $(NSS_CRYPTO) \
+		$(NETWORKING) $(NSS_CLIENTS_STANDARD) $(NSS_USERSPACE) \
+		$(HW_CRYPTO) $(IPSEC)
 endef
-#		$(FTM) $(QMSCT_CLIENT) $(NSS_COMMON) \
-#		$(NSS_STANDARD) $(NETWORKING) $(NSS_CLIENTS_STANDARD) \
-#		$(QCA_ECM_PREMIUM) $(NSS_CRYPTO) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
-#		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(HW_CRYPTO) $(IPSEC) $(MAP_PKGS) \
-#		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC) $(NSS_USERSPACE) $(NSS_RMNET) \
+#		$(FTM) $(QMSCT_CLIENT) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
+#		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(MAP_PKGS) \
+#		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC) $(NSS_RMNET) \
 #		$(SHORTCUT_FE) $(QCA_MAD) $(CNSS_DIAG) kmod-art2 \
 #		$(QCA_EDMA) $(QCA_RFS) $(EMESH_SP) $(QCA_EZMESH) kmod-macvlan
 

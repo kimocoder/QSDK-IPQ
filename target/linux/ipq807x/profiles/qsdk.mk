@@ -25,7 +25,7 @@ NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-igs kmod-qca-nss-
 	kmod-qca-nss-drv-ovpn-mgr kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr kmod-qca-nss-drv-netlink \
 	kmod-qca-ovsmgr kmod-qca-nss-drv-match kmod-qca-nss-drv-mirror
 
-NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi -kmod-qca-nss-cfi-ocf kmod-qca-nss-drv-ipsecmgr -kmod-crypto-ocf -kmod-qca-nss-drv-ipsecmgr-klips
+NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi -kmod-qca-nss-cfi-ocf kmod-qca-nss-drv-ipsecmgr kmod-qca-nss-drv-ipsecmgr-xfrm -kmod-crypto-ocf -kmod-qca-nss-drv-ipsecmgr-klips
 
 NSS_RMNET:= kmod-rmnet-nss
 
@@ -86,6 +86,8 @@ MAP_PKGS:=map 464xlat tayga
 HYFI:=hyfi hyfi-ui
 
 QCA_MAD:=qca-mad
+
+QCA_EZMESH:=qca-ezmesh qca-ezmesh-ctrl qca-ezmesh-agent
 
 AQ_PHY:=kmod-aq_phy kmod-qca_85xx_sw aq-fw-download
 
@@ -149,7 +151,7 @@ define Profile/QSDK_Premium
 		$(QCA_ECM_PREMIUM) $(NSS_CRYPTO) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
 		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(HW_CRYPTO) $(IPSEC) $(MAP_PKGS) $(MINIDUMP) \
 		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC) $(NSS_USERSPACE) $(NSS_RMNET) $(SHORTCUT_FE) \
-		$(QCA_MAD) $(EMESH_SP)
+		$(QCA_MAD) $(EMESH_SP) $(QCA_EZMESH)
 endef
 
 #		$(CNSS_DIAG) kmod-art2 \

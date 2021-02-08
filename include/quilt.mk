@@ -84,6 +84,7 @@ endef
 define Host/Patch/Default
 	$(if $(HOST_QUILT),rm -rf $(HOST_BUILD_DIR)/patches; mkdir -p $(HOST_BUILD_DIR)/patches)
 	$(call HostPatchDir,$(HOST_BUILD_DIR),$(HOST_PATCH_DIR),)
+	$(call HostPatchDir,$(HOST_BUILD_DIR),$(call FindPackage, $(basename $(notdir $(CURDIR))))/patches-host,)
 	$(if $(HOST_QUILT),touch $(HOST_BUILD_DIR)/.quilt_used)
 endef
 

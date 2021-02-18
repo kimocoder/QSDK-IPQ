@@ -24,14 +24,14 @@ NSS_MACSEC:= \
 
 QCA_ECM_PREMIUM:= kmod-qca-nss-ecm-premium
 
-NSS_CLIENTS_STANDARD:= -kmod-qca-nss-drv-qdisc -kmod-qca-nss-drv-igs kmod-qca-nss-drv-tun6rd \
-	kmod-qca-nss-drv-tunipip6 -kmod-qca-nss-drv-l2tpv2 -kmod-qca-nss-drv-pptp \
-	-kmod-qca-nss-drv-map-t kmod-qca-nss-drv-lag-mgr \
+NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-igs kmod-qca-nss-drv-tun6rd \
+	kmod-qca-nss-drv-tunipip6 kmod-qca-nss-drv-l2tpv2 kmod-qca-nss-drv-pptp \
+	kmod-qca-nss-drv-map-t kmod-qca-nss-drv-lag-mgr \
 	kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-gre kmod-qca-nss-drv-pppoe \
-	-kmod-qca-nss-drv-ovpn-mgr -kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr -kmod-qca-nss-drv-netlink \
-	-kmod-qca-ovsmgr -kmod-qca-nss-drv-match
+	kmod-qca-nss-drv-ovpn-mgr kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr kmod-qca-nss-drv-netlink \
+	kmod-qca-ovsmgr kmod-qca-nss-drv-match
 
-NSS_CRYPTO:= kmod-qca-nss-crypto -kmod-qca-nss-cfi-cryptoapi -kmod-qca-nss-cfi-ocf -kmod-qca-nss-drv-ipsecmgr -kmod-crypto-ocf
+NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi -kmod-qca-nss-cfi-ocf kmod-qca-nss-drv-ipsecmgr -kmod-crypto-ocf
 
 NSS_RMNET:= kmod-rmnet-nss
 
@@ -140,14 +140,13 @@ define Profile/QSDK_Premium
 		$(FTM) $(QMSCT_CLIENT) $(KPI) $(NSS_COMMON) \
 		$(NSS_STANDARD) $(UTILS) $(NETWORKING) $(CD_ROUTER) $(NSS_CLIENTS_STANDARD) \
 		$(QCA_ECM_PREMIUM) $(NSS_CRYPTO) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
-		$(WIFI_PKGS) $(WIFI_FW_PKGS)
+		$(WIFI_PKGS) $(WIFI_FW_PKGS) \
+		$(NSS_USERSPACE) $(NSS_RMNET) $(NSS_MACSEC)  $(QCA_EDMA) $(IPSEC)  \
+		$(SHORTCUT_FE) $(MAP_PKGS) $(OPENVPN) $(HW_CRYPTO) $(QOS)
 endef
 
 #		$(HYFI) $(CNSS_DIAG) kmod-art2 \
-#		$(NSS_USERSPACE) $(NSS_RMNET) \
-#		$(NSS_MACSEC) $(QCA_EDMA) \
-#		$(IPSEC) $(QCA_RFS) $(SHORTCUT_FE) \
-#		$(MAP_PKGS) $(QCA_MAD) $(OPENVPN) $(HW_CRYPTO) $(QOS)
+#		$(QCA_RFS) $(QCA_MAD)
 
 define Profile/QSDK_Premium/Description
 	QSDK Premium package set configuration.

@@ -100,8 +100,10 @@ ppp_generic_setup() {
 	fi
 
 	if [ "${demand:-0}" -gt 0 ]; then
+		[ "$ipv6" = 1 ] && ipv6="ipv6 ,::0a70:7070 ipv6cp-use-persistent"
 		demand="precompiled-active-filter /etc/ppp/filter demand idle $demand"
 	else
+		[ "$ipv6" = 1 ] && ipv6="+ipv6"
 		demand=""
 	fi
 	if [ -n "$persist" ]; then
@@ -139,7 +141,7 @@ ppp_generic_setup() {
 		ifname "$pppname" \
 		${localip:+$localip:} \
 		${lcp_failure:+lcp-echo-interval $lcp_interval lcp-echo-failure $lcp_failure $lcp_adaptive} \
-		${ipv6:++ipv6} \
+		$ipv6 \
 		${autoipv6:+set AUTOIPV6=1} \
 		${ip6table:+set IP6TABLE=$ip6table} \
 		${peerdns:+set PEERDNS=$peerdns} \

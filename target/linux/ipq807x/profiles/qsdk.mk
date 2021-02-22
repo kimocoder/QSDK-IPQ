@@ -44,7 +44,7 @@ WIFI_PKGS:=kmod-qca-wifi-unified-profile \
 	qca-hostap qca-hostapd-cli qca-wpa-supplicant \
 	qca-wpa-cli qca-cfg80211tool qca-wifi-scripts \
 	qca-acfg qca-wrapd athtestcmd-lith qca-iface-mgr-10.4 \
-	qca-wapid qca-lowi athdiag whc whc-ui \
+	qca-wapid qca-lowi athdiag whc-mesh whc-ui \
 	qca-spectral qca-icm qcmbr-10.4 sigma-dut \
 	qca-wpc qca-cfg80211 \
 	qca-cnss-daemon
@@ -83,7 +83,7 @@ QOS:=tc kmod-sched kmod-sched-core kmod-sched-connmark kmod-ifb iptables \
 
 MAP_PKGS:=map 464xlat tayga
 
-HYFI:=hyfi hyfi-ui
+HYFI:=hyfi-mesh hyfi-ui
 
 QCA_MAD:=qca-mad
 

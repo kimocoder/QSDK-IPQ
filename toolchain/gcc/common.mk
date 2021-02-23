@@ -161,7 +161,7 @@ ifneq ($(GCC_ARCH),)
   GCC_CONFIGURE+= --with-arch=$(GCC_ARCH)
 endif
 
-ifeq ($(CONFIG_arm),y)
+ifeq ($(CONFIG_arm)$(CONFIG_armeb),y)
   GCC_CONFIGURE+= \
 	--with-cpu=$(word 1, $(subst +," ,$(CONFIG_CPU_TYPE)))
 

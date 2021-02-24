@@ -278,7 +278,7 @@ if (!$is_network_down) {
 	push @caf_mirrors, 'https://source.codeaurora.org/mirrored_source/quic/qsdk';
 }
 #first check in NFS and CAF server
-while (!$ok) {
+while (!$ok and !-f "$target/$filename") {
 	my $mirror = shift @caf_mirrors;
 	$mirror or last;
 

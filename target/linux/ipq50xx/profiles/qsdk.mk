@@ -22,6 +22,7 @@ NSS_MACSEC:= \
 	qca-wpa-supplicant-macsec \
 	qca-hostap-macsec
 
+QCA_ECM_STANDARD:= kmod-qca-nss-ecm-standard
 QCA_ECM_PREMIUM:= kmod-qca-nss-ecm-premium
 
 NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-igs kmod-qca-nss-drv-tun6rd \
@@ -30,6 +31,8 @@ NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-igs kmod-qca-nss-
 	kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-gre kmod-qca-nss-drv-pppoe \
 	kmod-qca-nss-drv-ovpn-mgr kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr kmod-qca-nss-drv-netlink \
 	kmod-qca-ovsmgr kmod-qca-nss-drv-match
+
+NSS_CLIENTS_256MB:= kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-pppoe
 
 NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi -kmod-qca-nss-cfi-ocf kmod-qca-nss-drv-ipsecmgr -kmod-crypto-ocf
 
@@ -48,16 +51,30 @@ WIFI_OPEN_PKGS:= kmod-ath11k wpad-mesh hostapd-utils \
 
 WIFI_PKGS:=kmod-qca-wifi-unified-profile \
 	qca-hostap qca-hostapd-cli qca-wpa-supplicant \
+	qca-wpa-cli qca-cfg80211tool qca-wifi-scripts \
+	qca-spectral qca-wpc sigma-dut \
+	qcmbr-10.4 qca-wrapd qca-wapid qca-acfg whc whc-ui \
+	qca-lowi qca-iface-mgr-10.4 qca-icm qca-cfg80211 athdiag qca-cnss-daemon \
+	athtestcmd-lith
+
+WIFI_PKGS_256MB:=kmod-qca-wifi-lowmem-profile \
+	qca-hostap qca-hostapd-cli qca-wpa-supplicant \
 	qca-wpa-cli qca-cfg80211tool qca-wifi-scripts
-#	qca-spectral qca-wpc sigma-dut \
-#	qcmbr-10.4 qca-wrapd qca-wapid qca-acfg whc whc-ui \
-#	qca-lowi qca-iface-mgr-10.4 qca-icm qca-cfg80211 athdiag qca-cnss-daemon \
+#	qca-wpc sigma-dut \
+#	qca-wrapd qca-wapid qca-acfg whc-mesh whc-ui \
+#	qca-iface-mgr-10.4 qca-icm qca-cfg80211 athdiag qca-cnss-daemon \
 #	athtestcmd-lith
 
 WIFI_FW_PKGS:=qca-wifi-hk-fw-hw1-10.4-asic
 
 OPENWRT_STANDARD:= \
 	luci openssl-util
+
+OPENWRT_256MB:=luci pm-utils wififw_mount_script qca-thermald-10.4 qca-wlanfw-upgrade -file \
+		-kmod-ata-core -kmod-ata-ahci -kmod-ata-ahci-platform \
+		-kmod-usb2 -kmod-usb3 -kmod-usb-dwc3-qcom \
+		-kmod-usb-phy-qcom-dwc3 -kmod-usb-dwc3-of-simple \
+		-kmod-usb-phy-ipq807x -kmod-usb-f-qdss
 
 STORAGE:=kmod-scsi-core kmod-usb-storage kmod-usb-uas kmod-nls-cp437 kmod-nls-iso8859-1  \
 	kmod-fs-msdos kmod-fs-vfat kmod-fs-ntfs ntfs-3g e2fsprogs losetup
@@ -87,6 +104,12 @@ CD_ROUTER:=kmod-ipt-ipopt kmod-bonding kmod-nat-sctp lacpd \
 	kmod-ipv6 ip6tables iptables-mod-ipsec iptables-mod-filter \
 	isc-dhcp-relay-ipv6 rp-pppoe-server ppp-mod-pptp -iptables-mod-physdev
 
+CD_ROUTER_256MB:=kmod-ipt-ipopt kmod-nat-sctp lacpd \
+	arptables ddns-scripts \
+	quagga quagga-ripd quagga-zebra quagga-watchquagga quagga-vtysh \
+	kmod-ipv6 ip6tables iptables-mod-filter \
+	isc-dhcp-relay-ipv6 rp-pppoe-server
+
 QOS:=tc kmod-sched kmod-sched-core kmod-sched-connmark kmod-ifb iptables \
 	iptables-mod-filter iptables-mod-ipopt iptables-mod-conntrack-extra
 
@@ -114,6 +137,8 @@ NSS_USERSPACE:=nlcfg
 KPI:=iperf sysstat
 
 USB_DIAG:=kmod-diag-char kmod-usb-f-diag qca-diag kmod-usb-gdiag
+
+CHAR_DIAG:=kmod-diag-char qca-diag
 
 CNSS_DIAG:=cnssdiag
 
@@ -176,3 +201,22 @@ define Profile/QSDK_Open/Description
 endef
 
 $(eval $(call Profile,QSDK_Open))
+
+define Profile/QSDK_256
+	NAME:=Qualcomm-Atheros SDK 256MB Profile
+	PACKAGES:=$(OPENWRT_256MB) $(NSS_COMMON) $(QCA_EDMA) $(NSS_STANDARD) $(SWITCH_SSDK_PKGS) \
+		$(WIFI_PKGS_256MB) qca-wifi-hk-fw-hw1-10.4-asic $(CD_ROUTER_256MB) $(NETWORKING_256MB) \
+		iperf-mt rng-tools $(QCA_RFS) $(IGMPSNOOING_RSTP) $(CHAR_DIAG) \
+		$(QCA_ECM_STANDARD) $(NSS_MACSEC) \
+		$(NSS_CLIENTS_256MB) $(FAILSAFE) -lacpd \
+		$(CNSS_DIAG) $(FTM) $(QMSCT_CLIENT)
+endef
+#		$(HYFI) $(QCA_EZMESH) \
+#		kmod-macvlan
+
+define Profile/QSDK_256/Description
+	QSDK Premium package set configuration.
+	Enables qca-wifi 11.0 packages
+endef
+
+$(eval $(call Profile,QSDK_256))

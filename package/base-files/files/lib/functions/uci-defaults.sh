@@ -610,18 +610,3 @@ board_config_flush() {
 	json_dump -i > /tmp/.board.json
 	mv /tmp/.board.json ${CFG}
 }
-
-ucidef_set_skb_recycler() {
-
-	uci batch <<EOF
-add skb_recycler skb
-EOF
-}
-
-ucidef_set_skb() {
-
-	uci batch <<EOF
-set skb_recycler.@skb[-1].'${1}'='$2'
-EOF
-}
-

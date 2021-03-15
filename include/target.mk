@@ -114,7 +114,8 @@ GENERIC_PATCH_DIR := $(GENERIC_PLATFORM_DIR)/pending$(if $(wildcard $(GENERIC_PL
 GENERIC_HACK_DIR := $(GENERIC_PLATFORM_DIR)/hack$(if $(wildcard $(GENERIC_PLATFORM_DIR)/hack-$(KERNEL_PATCHVER)),-$(KERNEL_PATCHVER))
 GENERIC_FILES_DIR := $(foreach dir,$(wildcard $(GENERIC_PLATFORM_DIR)/files $(GENERIC_PLATFORM_DIR)/files-$(KERNEL_PATCHVER)),"$(dir)")
 
-__config_name_list = $(1)/config-$(KERNEL_PATCHVER) $(1)/config-default
+EXTERNAL_LINUX_CONFIG = $(call qstrip,$(CONFIG_EXTERNAL_LINUX_CONFIG_NAME))
+__config_name_list = $(if $(EXTERNAL_LINUX_CONFIG),$(1)/$(EXTERNAL_LINUX_CONFIG),$(1)/config-$(KERNEL_PATCHVER)) $(1)/config-default
 __config_list = $(firstword $(wildcard $(call __config_name_list,$(1))))
 find_kernel_config=$(if $(__config_list),$(__config_list),$(lastword $(__config_name_list)))
 

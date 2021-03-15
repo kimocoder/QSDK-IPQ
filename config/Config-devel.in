@@ -37,6 +37,10 @@ menuconfig DEVEL
 		string "Git mirror" if DEVEL
 		default ""
 
+	config EXTERNAL_LINUX_CONFIG_NAME
+		string "Enter your config name"
+		default ""
+
 	config AUTOREBUILD
 		bool "Automatic rebuild of packages" if DEVEL
 		default y

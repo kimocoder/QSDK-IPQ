@@ -89,6 +89,14 @@ menu "Global build settings"
 		  This removes all ipkg/opkg status data files from the target directory
 		  before building the root filesystem.
 
+	config LOWMEM_FLASH
+		bool
+		prompt "Enable support for lowmem flash"
+		default n
+		help
+		  This enables support for lowmem flash based packages only
+		  before building the root filesystem.
+
 	config IPK_FILES_CHECKSUMS
 		bool
 		prompt "Record files checksums in package metadata"

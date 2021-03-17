@@ -4,10 +4,10 @@ include $(INCLUDE_DIR)/image.mk
 UBIFS_OPTS = -m 2048 -e 124KiB -c 4096 -U -F
 UBI_OPTS = -m 2048 -p 128KiB
 
-IPQ90XX_KERNEL_SIZE=6044k
-IPQ90XX_ROOTFS_SIZE=40036k
-IPQ90XX_32_KERNEL_LOADADDR = 0x42008000
-IPQ90XX_KERNEL_LOADADDR = 0x42080000
+IPQ95XX_KERNEL_SIZE=6044k
+IPQ95XX_ROOTFS_SIZE=40036k
+IPQ95XX_32_KERNEL_LOADADDR = 0x42008000
+IPQ95XX_KERNEL_LOADADDR = 0x42080000
 
 ifneq ($(CONFIG_TARGET_ROOTFS_UBIFS),)
 define Image/mkfs/ubifs_fit
@@ -35,7 +35,7 @@ define Image/BuildKernel/FIT
 	$(call Image/BuildKernel/MkFIT,$(1), $(KDIR)/Image.lzma, $(DTS_DIR)/$(1).dtb,lzma,$(2),$(2))
 	$(CP) $(KDIR)/fit-$(1).itb $(BIN_DIR)/$(IMG_PREFIX)-$(1)-fit-uImage.itb
 	mkdir -p $(BIN_DIR)/dtbs/
-	$(CP) $(DTS_DIR)/ipq90*.dtb $(BIN_DIR)/dtbs/
+	$(CP) $(DTS_DIR)/ipq95*.dtb $(BIN_DIR)/dtbs/
 	$(CP) $(KDIR)/Image $(BIN_DIR)/dtbs/
 endef
 
@@ -56,7 +56,7 @@ define Image/BuildKernel/MultiDTBFIT
 	$(foreach dtb, $(2), gzip -9 -c $(DTS_DIR)/$(dtb).dtb > $(DTS_DIR)/$(dtb).dtb.gz;)
 	$(call CompressLzma,$(KDIR)/Image,$(KDIR)/Image.lzma)
 	$(call Image/BuildKernel/MkFITMulti,$(1),$(KDIR)/Image.lzma,$(2),lzma,$(3),$(3),$(4),$(5))
-	$$(call sizecheck, $(IPQ90XX_KERNEL_SIZE), $(KDIR)/fit-$(1).itb)
+	$$(call sizecheck, $(IPQ95XX_KERNEL_SIZE), $(KDIR)/fit-$(1).itb)
 	$(CP) $(KDIR)/fit-$(1).itb $(BIN_DIR)/$(IMG_PREFIX)-$(1)-fit-uImage.itb
 endef
 
@@ -66,23 +66,23 @@ endef
 FindDeviceTrees ?= $(notdir $(basename $(shell find $(DTS_DIR)/ -name $(1)*.dtb $(2) 2>/dev/null)))
 
 define Image/BuildKernel/template
-	$(CP) $(KDIR)/vmlinux$(subst openwrt-ipq90xx$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug $(BIN_DIR)/$(IMG_PREFIX)-vmlinux.elf
+	$(CP) $(KDIR)/vmlinux$(subst openwrt-ipq95xx$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug $(BIN_DIR)/$(IMG_PREFIX)-vmlinux.elf
 endef
 
-define Image/BuildKernel/ipq90xx_32
-	$(foreach device, $(call FindDeviceTrees, ipq9048-), \
-		$(call Image/BuildKernel/$(1),$(device),$(IPQ90XX_32_KERNEL_LOADADDR));)
+define Image/BuildKernel/ipq95xx_32
+	$(foreach device, $(call FindDeviceTrees, ipq9574-), \
+		$(call Image/BuildKernel/$(1),$(device),$(IPQ95XX_32_KERNEL_LOADADDR));)
 
-	$(call Image/BuildKernel/MultiDTBFIT,ipq9048-alxx, \
-		$(call FindDeviceTrees, ipq9048-), $(IPQ90XX_32_KERNEL_LOADADDR))
+	$(call Image/BuildKernel/MultiDTBFIT,ipq9574-alxx, \
+		$(call FindDeviceTrees, ipq9574-), $(IPQ95XX_32_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel/generic
-	$(foreach device, $(call FindDeviceTrees, ipq9048-), \
-		$(call Image/BuildKernel/$(1),$(device),$(IPQ90XX_KERNEL_LOADADDR));)
+	$(foreach device, $(call FindDeviceTrees, ipq9574-), \
+		$(call Image/BuildKernel/$(1),$(device),$(IPQ95XX_KERNEL_LOADADDR));)
 
-	$(call Image/BuildKernel/MultiDTBFIT,ipq9048-alxx, \
-		$(call FindDeviceTrees, ipq9048-), $(IPQ90XX_KERNEL_LOADADDR))
+	$(call Image/BuildKernel/MultiDTBFIT,ipq9574-alxx, \
+		$(call FindDeviceTrees, ipq9574-), $(IPQ95XX_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel
@@ -91,7 +91,7 @@ define Image/BuildKernel
 endef
 
 define Image/BuildKernel/Initramfs
-	$(CP) $(KDIR)/vmlinux-initramfs$(subst openwrt-ipq90xx$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug $(BIN_DIR)/$(IMG_PREFIX)-vmlinux-initramfs.elf
+	$(CP) $(KDIR)/vmlinux-initramfs$(subst openwrt-ipq95xx$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug $(BIN_DIR)/$(IMG_PREFIX)-vmlinux-initramfs.elf
 	$(call Image/BuildKernel/template,FITInitramfs)
 	$(call Image/BuildKernel/$(SUBTARGET),FITInitramfs)
 endef
@@ -102,7 +102,7 @@ endef
 
 define Image/Build/squashfs
 	$(call prepare_generic_squashfs,$(KDIR)/root.squashfs)
-	$$(call sizecheck, $(IPQ90XX_ROOTFS_SIZE), $(KDIR)/root.squashfs)
+	$$(call sizecheck, $(IPQ95XX_ROOTFS_SIZE), $(KDIR)/root.squashfs)
 endef
 
 define Image/Build

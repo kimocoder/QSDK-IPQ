@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 ARCH:=aarch64
-BOARD:=ipq90xx
-BOARDNAME:=Qualcomm Technologies, Inc IPQ90xx
+BOARD:=ipq95xx
+BOARDNAME:=Qualcomm Technologies, Inc IPQ95xx
 FEATURES:=ubifs squashfs fpu ramdisk nand pcie usbgadget
 CPU_TYPE:=cortex-a53
 CPU_SUBTYPE:=neon-vfpv4
 MAINTAINER:=John Crispin <blogic@openwrt.org>
-SUBTARGETS:=generic ipq90xx_32
+SUBTARGETS:=generic ipq95xx_32
 
 KERNELNAME:=zImage Image dtbs
 
@@ -35,6 +35,6 @@ include $(INCLUDE_DIR)/target.mk
 DEFAULT_PACKAGES += \
 	uboot-envtools kmod-leds-gpio kmod-gpio-button-hotplug kmod-button-hotplug \
 	kmod-ata-core kmod-ata-ahci kmod-ata-ahci-platform kmod-usb3 swconfig \
-	kmod-usb-phy-ipq90xx kmod-usb-dwc3-qcom-internal
+	kmod-usb-phy-ipq95xx kmod-usb-dwc3-qcom-internal
 
 $(eval $(call BuildTarget))

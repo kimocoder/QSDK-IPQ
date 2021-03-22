@@ -119,6 +119,10 @@ if KERNEL_KASAN
 		default 2048
 endif
 
+config KERNEL_I2C_COMPAT
+       bool "Enable compatibility bits for old user-space"
+       default y
+
 config KERNEL_PAGE_OWNER
 	bool "Page Onwer Tracking"
 	default n
@@ -295,9 +299,25 @@ config KERNEL_BLK_DEV_BSG
 	bool "Compile the kernel with SCSI generic v4 support for any block device"
 	default n
 
+config KERNEL_BLK_DEV_RAM
+       bool "Complie the kernel with RAM block device support"
+       default y
+
+config KERNEL_BLK_DEV_NVME
+       bool "Compile the kernel with NVM Express block device"
+       default y
+
 config KERNEL_MAGIC_SYSRQ
 	bool "Compile the kernel with SysRq support"
 	default y
+
+config KERNEL_DEBUG_GPIO
+       bool "Enable kernel Debug GPIO calls"
+       default y
+
+config KERNEL_DEBUG_BUGVERBOSE
+       bool "Enable kernel Verbose BUG() reporting"
+       default y
 
 config KERNEL_DEBUG_PINCTRL
 	bool "Compile the kernel with pinctrl debugging"
@@ -426,6 +446,14 @@ config KERNEL_SKB_RECYCLE_MAX_PREALLOC_SKBS
 config KERNEL_ALLOC_SKB_PAGE_FRAG_DISABLE
 	bool "Disable alloc skb page frag"
 	default n
+
+config KERNEL_SKB_RECYCLER
+	bool "Generic skb recycling"
+	default y
+
+config KERNEL_SKB_RECYCLER_MULTI_CPU
+	bool "Cross-CPU recycling for CPU-locked workloads"
+	default y
 
 config KERNEL_KEYS
     bool "Enable kernel access key retention support"

@@ -77,7 +77,7 @@ sub get_profile_info($) {
             return $2;
         }
     }
-    print "Unable to find profile information from config file, exiting";
+    print "Unable to find profile information from config file";
     return "";
 }
 
@@ -101,8 +101,7 @@ sub get_target_info($) {
         $targetOutFolder = $target."_64";
     }
     else {
-        print "Unknown format passed as input";
-        exit();
+        print "Unknown format passed as input, using default";
     }
     return ($target, $subtarget);
 }
@@ -130,7 +129,7 @@ sub load_config() {
 
     foreach my $defconfig (@INPUT_CONFIGS) {
         my $dotconfig = tmpnam();
-        next if($defconfig =~ m/.*_debug/ or $defconfig =~ m/.*_ioe_.*/ or $defconfig =~ m/.*ar71xx_open\..*/  or $defconfig =~ m/x86_basic\.*/
+        next if($defconfig =~ m/.*_debug/ or $defconfig =~ m/.*_ioe_.*/ or $defconfig =~ m/.*ar71xx_open\..*/
           or $defconfig =~ m/.*ar71xx_premium\..*/ or $defconfig =~ m/.*_upstream\..*/ or $defconfig =~ m/.*ar71xx_wireless\..*/ or $defconfig =~ m/.*_caf.*/);
 
             # Create a temporary file and extrapolate it with default values
@@ -138,8 +137,12 @@ sub load_config() {
 
             #In the dotconfig, replace the target with required target before doing make defconfig
             $profile = get_profile_info($dotconfig);
-            next if( $profile eq "");
-            replace_target($target, $subtarget, $profile, $dotconfig);
+            if( $profile ne "" and $target ne "" and $subtarget ne "" ) {
+                replace_target($target, $subtarget, $profile, $dotconfig);
+            }
+            else {
+                print "Incomplete info for replacing target, doing defconfig with default config file passed as input: $defconfig \n";
+            }
             system( "./scripts/config/conf "
                   . "--defconfig=$dotconfig "
                   . "-w $dotconfig "

@@ -8,12 +8,28 @@ NSS_COMMON:= \
 
 #NSS_STANDARD:=
 
+NSS_ENTERPRISE:= \
+	qca-nss-fw2-enterprise \
+	qca-nss-fw2-enterprise_custA \
+	qca-nss-fw2-enterprise_custC \
+	qca-nss-fw2-enterprise_custR \
+	qca-nss-fw-hk-enterprise \
+	qca-nss-fw-hk-enterprise_custA \
+	qca-nss-fw-hk-enterprise_custC \
+	qca-nss-fw-hk-enterprise_custR \
+	qca-nss-fw-cp-enterprise \
+	qca-nss-fw-mp-enterprise \
+	qca-nss-fw-cp-enterprise_custA \
+	qca-nss-fw-cp-enterprise_custC \
+	qca-nss-fw-cp-enterprise_custR
+
 NSS_MACSEC:= \
 	kmod-qca-nss-macsec \
 	qca-wpa-supplicant-macsec \
 	qca-hostap-macsec
 
 QCA_ECM_PREMIUM:= kmod-qca-nss-ecm-premium
+QCA_ECM_ENTERPRISE:= kmod-qca-nss-ecm-noload
 
 NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-igs \
 	kmod-qca-nss-drv-tun6rd kmod-qca-nss-drv-tunipip6 \
@@ -24,6 +40,10 @@ NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-igs \
 	kmod-qca-nss-drv-ovpn-link kmod-qca-nss-drv-vxlanmgr \
 	kmod-qca-nss-drv-netlink kmod-qca-ovsmgr \
 	kmod-qca-nss-drv-match kmod-qca-nss-drv-mirror
+
+NSS_CLIENTS_ENTERPRISE:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-profile \
+	kmod- kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-netlink kmod-qca-nss-drv-tlsmgr \
+	kmod-qca-nss-drv-match kmod-qca-nss-drv-mirror kmod-qca-nss-drv-mscs
 
 NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi kmod-qca-nss-cfi-ocf kmod-qca-nss-drv-ipsecmgr kmod-crypto-ocf kmod-qca-nss-drv-ipsecmgr-klips
 
@@ -121,20 +141,29 @@ SWITCH_OPEN_PKGS:= kmod-switch-ar8216 swconfig
 
 QMI_SAMPLE_APP:=kmod-qmi_sample_client
 
+MHI_QRTR:=kmod-mhi-qrtr-mproc
+
+QRTR:=qca-qrtr
+
+EMESH_SP:=kmod-emesh-sp
+
+EXTRA_NETWORKING:= $(CD_ROUTER) $(NSS_EIP197_FW) -rdk-v-wifi-ath10k
+
+QCA_EZMESH:=qca-ezmesh qca-ezmesh-ctrl qca-ezmesh-agent
+
 define Profile/QSDK_Premium
 	NAME:=Qualcomm Technologies, Inc SDK Premium Profile
-	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) \
-		$(AUDIO) $(VIDEO) $(TEST_TOOLS) $(COREBSP_UTILS) \
-		$(AQ_PHY) $(FAILSAFE) -lacpd $(USB_DIAG) $(KPI) \
-		$(UTILS) $(MINIDUMP) $(SWITCH_SSDK_PKGS) $(CD_ROUTER)
+	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) $(TEST_TOOLS) $(COREBSP_UTILS) \
+		$(AQ_PHY) $(FAILSAFE) -lacpd $(USB_DIAG) $(KPI) $(UTILS) \
+		$(MINIDUMP) $(SWITCH_SSDK_PKGS) $(CD_ROUTER)
 endef
-#		$(SWITCH_SSDK_PKGS) $(FTM) $(QMSCT_CLIENT) $(NSS_COMMON) \
+#		$(FTM) $(QMSCT_CLIENT) $(NSS_COMMON) \
 #		$(NSS_STANDARD) $(NETWORKING) $(NSS_CLIENTS_STANDARD) \
 #		$(QCA_ECM_PREMIUM) $(NSS_CRYPTO) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
 #		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(HW_CRYPTO) $(IPSEC) $(MAP_PKGS) \
 #		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC) $(NSS_USERSPACE) $(NSS_RMNET) \
 #		$(SHORTCUT_FE) $(QCA_MAD) $(CNSS_DIAG) kmod-art2 \
-#		$(QCA_EDMA) $(QCA_RFS)
+#		$(QCA_EDMA) $(QCA_RFS) $(EMESH_SP) $(QCA_EZMESH) kmod-macvlan
 
 define Profile/QSDK_Premium/Description
 	QSDK Premium package set configuration.
@@ -142,3 +171,65 @@ define Profile/QSDK_Premium/Description
 endef
 
 $(eval $(call Profile,QSDK_Premium))
+
+define Profile/QSDK_Enterprise
+	NAME:=Qualcomm Technologies, Inc SDK Enterprise Profile
+	PACKAGES:=$(OPENWRT_STANDARD) $(SWITCH_SSDK_NOHNAT_PKGS) $(STORAGE) \
+		$(UTILS) $(TEST_TOOLS) $(COREBSP_UTILS) $(CD_ROUTER) $(AQ_PHY) \
+		-lacpd 	$(USB_DIAG) $(KPI) $(FAILSAFE)
+endef
+
+#		$(NSS_COMMON) $(NSS_ENTERPRISE) $(WIFI_PKGS) $(WIFI_FW_PKGS) \
+#		$(HW_CRYPTO) $(QCA_RFS) $(IGMPSNOOPING_RSTP) $(NETWORKING) $(QOS) \
+#		$(QCA_ECM_ENTERPRISE) $(NSS_CLIENTS_ENTERPRISE) $(NSS_MACSEC) \
+#		$(NSS_CRYPTO) $(IPSEC) $(NSS_EIP197_FW) $(CNSS_DIAG) $(FTM) \
+#		$(QMSCT_CLIENT) $(QRTR) $(MHI_QRTR) $(NSS_USERSPACE)
+
+define Profile/QSDK_Enterprise/Description
+	QSDK Enterprise package set configuration.
+	Enables qca-wifi 11.0 packages
+endef
+
+$(eval $(call Profile,QSDK_Enterprise))
+
+define Profile/QSDK_Open
+	NAME:=Qualcomm Technologies, Inc SDK Open Profile
+	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) $(TEST_TOOLS) \
+		$(COREBSP_UTILS) $(FAILSAFE) $(USB_DIAG) $(SWITCH_SSDK_NOHNAT_PKGS) \
+		$(KPI) $(UTILS) $(EXTRA_NETWORKING) $(AQ_PHY) -lacpd libtirpc
+endef
+
+#	$(SHORTCUT_FE) $(HW_CRYPTO) $(QCA_RFS) $(IPSEC) $(QOS) kmod-qca-nss-macsec \
+#	$(MAP_PKGS) $(QCA_ECM_PREMIUM) $(NSS_COMMON) $(NSS_STANDARD) $(FTM) \
+#	$(NSS_CRYPTO) $(NSS_CLIENTS_STANDARD) $(IGMPSNOOPING_RSTP) -rstp \
+#	$(NETWORKING) $(WIFI_OPEN_PKGS) $(USB_ETHERNET) $(NSS_COMMON) $(NSS_STANDARD) \
+#	$(QCA_ECM_PREMIUM) qca-cnss-daemon qca-wifi-hk-fw-hw1-10.4-asic $(CNSS_DIAG) \
+#	qrtr $(QMI_SAMPLE_APP) ath11k-fwtest ath11k-qdss
+
+define Profile/QSDK_Open/Description
+	QSDK Open package set configuration.
+	Enables wifi open source packages
+endef
+
+$(eval $(call Profile,QSDK_Open))
+
+define Profile/QSDK_512
+	NAME:=Qualcomm Technologies, Inc SDK 512MB Profile
+	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) $(CD_ROUTER) \
+		$(UTILS) $(TEST_TOOLS) $(COREBSP_UTILS) $(AQ_PHY) $(FAILSAFE) \
+		-lacpd $(USB_DIAG) $(KPI)
+endef
+
+#	$(NSS_COMMON) $(NSS_STANDARD) $(WIFI_PKGS) $(WIFI_FW_PKGS) $(NETWORKING) \
+#	$(OPENVPN) $(SHORTCUT_FE) $(HW_CRYPTO) $(QCA_RFS) $(IGMPSNOOPING_RSTP) \
+#	$(IPSEC) $(QOS) $(QCA_ECM_PREMIUM) $(NSS_MACSEC) $(NSS_CRYPTO) \
+#	$(NSS_CLIENTS_STANDARD) $(MAP_PKGS) $(NSS_EIP197_FW) $(CNSS_DIAG) \
+#	$(FTM) $(QMSCT_CLIENT) $(NSS_USERSPACE) $(NSS_RMNET) $(HYFI) \
+#	$(QCA_EZMESH) $(QRTR) $(MHI_QRTR) kmod-macvlan $(SWITCH_SSDK_PKGS)
+
+define Profile/QSDK_512/Description
+	QSDK Premium package set configuration.
+	Enables qca-wifi 11.0 packages
+endef
+
+$(eval $(call Profile,QSDK_512))

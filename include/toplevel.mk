@@ -128,7 +128,14 @@ define check_config
 	config_subtarget=`grep -oP "CONFIG_TARGET_SUBTARGET[=][\"]\K[a-zA-Z0-9_]*(?=\")" .config`; \
 	printf "$(_G)# Selected subtarget:\t$$config_subtarget$(_N)\n"; \
 	config_profile=`grep -oP "^CONFIG_TARGET_"$$config_target"_"$$config_subtarget"_\K[a-zA-z0-9_]*" .config`; \
-	printf "$(_G)# Selected profile:\t$$config_profile$(_N)\n"; \
+	if grep -q -oP "^CONFIG_KERNEL_KASAN=y" .config; then \
+		config_ext="_Kasan"; \
+	elif grep -q -oP "^CONFIG_DEBUG=y" .config; then \
+		config_ext="_Debug"; \
+	else \
+		config_ext=""; \
+	fi ;\
+	printf "$(_G)# Selected profile:\t$$config_profile$$config_ext$(_N)\n"; \
 	case $$config_target in \
 		*"ipq"* | *"ar71xx"*) \
 			;; \

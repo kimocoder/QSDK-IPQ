@@ -98,7 +98,7 @@ define KernelPackage/nf-conntrack
 	$(KCONFIG_NF_CONNTRACK)
   FILES:=$(foreach mod,$(NF_CONNTRACK-m),$(LINUX_DIR)/net/$(mod).ko)
 # Netfilter GRE module depends on PPTP driver if PPTP is enabled
-  DEPENDS:=+PACKAGE_kmod-pptp:kmod-pptp
+  DEPENDS:=+PACKAGE_kmod-pptp:kmod-pptp +PACKAGE_kmod-ipt-sctp:kmod-lib-crc32c
   AUTOLOAD:=$(call AutoProbe,$(notdir $(NF_CONNTRACK-m)))
 endef
 
@@ -717,6 +717,20 @@ endef
 
 $(eval $(call KernelPackage,ipt-checksum))
 
+define KernelPackage/ipt-sctp
+  TITLE:=Module for sctp protocol netfilter
+  KCONFIG:=CONFIG_NETFILTER_XT_MATCH_SCTP \
+	   CONFIG_NF_CT_PROTO_SCTP=y
+  FILES:= $(LINUX_DIR)/net/netfilter/xt_sctp.ko
+  AUTOLOAD:=$(call AutoLoad,50,xt_sctp)
+  $(call AddDepends/ipt)
+endef
+
+define KernelPackage/ipt-sctp/description
+  Kernel modules for sctp iptables rules
+endef
+
+$(eval $(call KernelPackage,ipt-sctp))
 
 define KernelPackage/ipt-iprange
   TITLE:=Module for matching ip ranges

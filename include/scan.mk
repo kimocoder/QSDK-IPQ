@@ -9,11 +9,12 @@ SCAN_DIR ?= package
 TARGET_STAMP:=$(TMP_DIR)/info/.files-$(SCAN_TARGET).stamp
 FILELIST:=$(TMP_DIR)/info/.files-$(SCAN_TARGET)-$(SCAN_COOKIE)
 OVERRIDELIST:=$(TMP_DIR)/info/.overrides-$(SCAN_TARGET)-$(SCAN_COOKIE)
+QSDK_PACKAGE_DIR:=$(TOPDIR)/qsdk-package/
 
 export PATH:=$(TOPDIR)/staging_dir/host/bin:$(PATH)
 
 ifeq ($(SCAN_NAME),target)
-  SCAN_DEPS=image/Makefile profiles/*.mk $(TOPDIR)/include/kernel*.mk $(TOPDIR)/include/target.mk image/*.mk
+  SCAN_DEPS=image/Makefile $(QSDK_PACKAGE_DIR)/profiles/*.mk profiles/*.mk $(TOPDIR)/include/kernel*.mk $(TOPDIR)/include/target.mk image/*.mk
 else
   SCAN_DEPS=$(TOPDIR)/include/package*.mk
 endif

@@ -67,8 +67,12 @@ endef
 # $(1) is the filter to apply
 FindDeviceTrees ?= $(notdir $(basename $(shell find $(DTS_DIR)/ -name $(1)*.dtb $(2) 2>/dev/null)))
 
+# For imagebuilder builds, check if debug file exists before copying
+DebugImageName ?= $(KDIR)/vmlinux$(subst openwrt-ipq807x$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug
+DebugFileCheck ?= $(shell if [ -f $(call DebugImageName) ];then echo "1"; fi)
+
 define Image/BuildKernel/template
-	$(CP) $(KDIR)/vmlinux$(subst openwrt-ipq807x$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug $(BIN_DIR)/$(IMG_PREFIX)-vmlinux.elf
+	$(if $(CONFIG_IB_STANDALONE), $(if $(call DebugFileCheck), $(CP) $(call DebugImageName) $(BIN_DIR)/$(IMG_PREFIX)-vmlinux.elf), $(CP) $(call DebugImageName) $(BIN_DIR)/$(IMG_PREFIX)-vmlinux.elf)
 endef
 
 define Image/BuildKernel/ipq807x_32

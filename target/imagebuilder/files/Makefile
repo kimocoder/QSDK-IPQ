@@ -211,6 +211,7 @@ image:
 		$(if $(FILES),USER_FILES="$(FILES)") \
 		$(if $(PACKAGES),USER_PACKAGES="$(PACKAGES)") \
 		$(if $(BIN_DIR),BIN_DIR="$(BIN_DIR)") \
+		$(if $(USE_CFG),USER_PACKAGES="$(PACKAGES) $(shell cat $(USE_CFG))") \
 		$(if $(DISABLED_SERVICES),DISABLED_SERVICES="$(DISABLED_SERVICES)"))
 
 manifest: FORCE

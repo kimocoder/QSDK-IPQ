@@ -18,6 +18,7 @@ IB_KDIR:=$(patsubst $(TOPDIR)/%,$(PKG_BUILD_DIR)/%,$(KERNEL_BUILD_DIR))
 IB_LDIR:=$(patsubst $(TOPDIR)/%,$(PKG_BUILD_DIR)/%,$(LINUX_DIR))
 IB_DTSDIR:=$(patsubst $(TOPDIR)/%,$(PKG_BUILD_DIR)/%,$(LINUX_DIR))/arch/$(LINUX_KARCH)/boot/dts/
 IB_IDIR:=$(patsubst $(TOPDIR)/%,$(PKG_BUILD_DIR)/%,$(STAGING_DIR_IMAGE))
+IB_EXT_KDIR:=$(patsubst $(TOPDIR)/%,$(PKG_BUILD_DIR)/%,$(CONFIG_EXTERNAL_KERNEL_TREE))
 
 all: compile
 
@@ -76,6 +77,11 @@ endif
 	if [ -d $(LINUX_DIR)/arch/$(LINUX_KARCH)/boot/dts ]; then \
 		$(CP) -L $(LINUX_DIR)/arch/$(LINUX_KARCH)/boot/dts/* $(IB_DTSDIR); \
 	fi
+ifdef CONFIG_EXTERNAL_KERNEL_TREE
+	-cp $(CONFIG_EXTERNAL_KERNEL_TREE)/Makefile $(IB_LDIR)/
+	mkdir -p $(IB_EXT_KDIR)
+	cp -rf $(IB_LDIR)/* $(IB_EXT_KDIR)/
+endif
 	$(SED) 's,^# REVISION:=.*,REVISION:=$(REVISION),g' $(PKG_BUILD_DIR)/include/version.mk
 	find $(PKG_BUILD_DIR) -name CVS -o -name .git -o -name .svn \
 	  | $(XARGS) rm -rf

@@ -28,8 +28,11 @@ NSS_MACSEC:= \
 	qca-wpa-supplicant-macsec \
 	qca-hostap-macsec
 
+QCA_ECM_STANDARD:= kmod-qca-nss-ecm-standard
 QCA_ECM_PREMIUM:= kmod-qca-nss-ecm-premium
 QCA_ECM_ENTERPRISE:= kmod-qca-nss-ecm-noload
+
+NSS_CLIENTS_256MB:= kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-pppoe
 
 NSS_CLIENTS_STANDARD:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-igs \
 	kmod-qca-nss-drv-tun6rd kmod-qca-nss-drv-tunipip6 \
@@ -54,6 +57,8 @@ HW_CRYPTO:= kmod-crypto-qcrypto
 SHORTCUT_FE:= kmod-shortcut-fe kmod-shortcut-fe-cm kmod-shortcut-fe-drv
 QCA_RFS:= kmod-qca-rfs
 
+CHAR_DIAG:=kmod-diag-char qca-diag
+
 SWITCH_SSDK_PKGS:= kmod-qca-ssdk-hnat kmod-qca-ssdk-nohnat qca-ssdk-shell swconfig
 
 WIFI_OPEN_PKGS:= kmod-ath11k wpad-mesh hostapd-utils \
@@ -68,10 +73,24 @@ WIFI_PKGS:=kmod-qca-wifi-unified-profile \
 	qca-spectral qca-icm qcmbr-10.4 sigma-dut \
 	qca-wpc qca-cfg80211 qca-cnss-daemon
 
+WIFI_PKGS_256MB:=kmod-qca-wifi-lowmem-profile \
+	qca-hostap qca-hostapd-cli qca-wpa-supplicant \
+	qca-wpa-cli qca-cfg80211tool qca-wifi-scripts \
+	qca-wpc sigma-dut \
+	qca-wrapd qca-wapid qca-acfg whc-mesh whc-ui \
+	qca-iface-mgr-10.4 qca-icm qca-cfg80211 athdiag qca-cnss-daemon \
+	athtestcmd-lith
+
 WIFI_FW_PKGS:=qca-wifi-hk-fw-hw1-10.4-asic
 
 OPENWRT_STANDARD:= \
 	luci openssl-util
+
+OPENWRT_256MB:=luci pm-utils wififw_mount_script qca-thermald-10.4 qca-wlanfw-upgrade -file \
+	-kmod-ata-core -kmod-ata-ahci -kmod-ata-ahci-platform \
+	-kmod-usb2 -kmod-usb3 -kmod-usb-dwc3-qcom \
+	-kmod-usb-phy-qcom-dwc3 -kmod-usb-dwc3-of-simple \
+	-kmod-usb-phy-ipq807x -kmod-usb-f-qdss
 
 STORAGE:=kmod-scsi-core kmod-usb-storage kmod-usb-uas kmod-nls-cp437 kmod-nls-iso8859-1  \
 	kmod-fs-msdos kmod-fs-vfat kmod-fs-ntfs ntfs-3g e2fsprogs losetup
@@ -93,11 +112,23 @@ NETWORKING:=mcproxy dnsmasq dnsmasq-dhcpv6 bridge ip-full trace-cmd mwan3 \
 	kmod-nf-nathelper-extra kmod-nf-nathelper \
 	kmod-ipt-nathelper-rtsp
 
+NETWORKING_256MB:=-dnsmasq dnsmasq-dhcpv6 bridge ip-full trace-cmd \
+	rp-pppoe-relay iptables-mod-extra iputils-tracepath iputils-tracepath6 \
+	kmod-nf-nathelper-extra kmod-ipt-nathelper-rtsp \
+	luci-app-upnp luci-app-ddns luci-proto-ipv6 \
+	luci-app-multiwan
+
 CD_ROUTER:=kmod-ipt-ipopt kmod-bonding kmod-nat-sctp lacpd \
 	arptables ds-lite 6rd ddns-scripts xl2tpd \
 	quagga quagga-ripd quagga-zebra quagga-watchquagga quagga-vtysh \
 	kmod-ipv6 ip6tables iptables-mod-ipsec iptables-mod-filter \
 	isc-dhcp-relay-ipv6 rp-pppoe-server ppp-mod-pptp -iptables-mod-physdev
+
+CD_ROUTER_256MB:=kmod-ipt-ipopt kmod-ipt-sctp lacpd \
+	arptables ddns-scripts \
+	quagga quagga-ripd quagga-zebra quagga-watchquagga quagga-vtysh \
+	kmod-ipv6 ip6tables iptables-mod-filter \
+	isc-dhcp-relay-ipv6 rp-pppoe-server
 
 QOS:=tc kmod-sched kmod-sched-core kmod-sched-connmark kmod-ifb iptables \
 	iptables-mod-filter iptables-mod-ipopt iptables-mod-conntrack-extra
@@ -233,3 +264,21 @@ define Profile/QSDK_512/Description
 endef
 
 $(eval $(call Profile,QSDK_512))
+
+define Profile/QSDK_256
+	NAME:=Qualcomm Technologies, Inc SDK 256MB Profile
+	PACKAGES:=$(OPENWRT_256MB) $(CD_ROUTER_256MB) iperf \
+		rng-tools $(FAILSAFE) -lacpd
+endef
+#	$(NSS_COMMON) $(NSS_STANDARD) $(SWITCH_SSDK_PKGS) \
+#	$(WIFI_PKGS_256MB) qca-wifi-hk-fw-hw1-10.4-asic $(NETWORKING_256MB) \
+#	$(QCA_RFS) $(QCA_ECM_STANDARD) $(NSS_MACSEC) $(NSS_CLIENTS_256MB) \
+#	$(CNSS_DIAG) $(FTM) $(QMSCT_CLIENT) $(HYFI) $(QCA_EZMESH) $(QRTR) \
+#	$(MHI_QRTR) kmod-macvlan $(IGMPSNOOPING_RSTP) $(CHAR_DIAG)
+
+define Profile/QSDK_256/Description
+	QSDK Premium package set configuration.
+	Enables qca-wifi 11.0 packages
+endef
+
+$(eval $(call Profile,QSDK_256))

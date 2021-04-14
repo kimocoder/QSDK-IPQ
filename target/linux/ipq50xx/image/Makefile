@@ -88,10 +88,12 @@ define Image/BuildKernel/Initramfs
 	$(call Image/BuildKernel/$(SUBTARGET),FITInitramfs)
 endef
 
+ifeq ($(CONFIG_LOWMEM_FLASH),)
 define Image/Build/squashfs
 	$(call prepare_generic_squashfs,$(KDIR)/root.squashfs)
 	$$(call sizecheck, $(IPQ50XX_ROOTFS_SIZE), $(KDIR)/root.squashfs)
 endef
+endif
 
 define Image/Build
 	$(call Image/Build/$(1),$(1))

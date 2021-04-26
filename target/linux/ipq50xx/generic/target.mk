@@ -5,7 +5,7 @@ BOARDNAME:=QTI IPQ50XX(64bit) based boards
 KERNELNAME:=Image dtbs
 
 DEFAULT_PACKAGES += \
-	sysupgrade-helper kmod-usb-phy-ipq5018 kmod-usb-dwc3-qcom kmod-bt_tty \
+	sysupgrade-helper kmod-usb-phy-ipq5018 kmod-usb-dwc3-qcom-internal kmod-bt_tty \
 	kmod-clk-test
 
 define Target/Description

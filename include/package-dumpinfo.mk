@@ -16,7 +16,10 @@ $(if $(PKG_BUILD_DEPENDS),Build-Depends: $(PKG_BUILD_DEPENDS)
 
 endef
 
+FindPackage?=$(strip $(shell find $(TOPDIR)/qsdk-package -name $(1) 2>/dev/null))
+
 define Dumpinfo/Package
+$(eval -include $(wildcard $(call FindPackage, $(1))/$(1).mk))
 $(info $(SOURCE_INFO)Package: $(1)
 $(if $(MENU),Menu: $(MENU)
 )$(if $(SUBMENU),Submenu: $(SUBMENU)

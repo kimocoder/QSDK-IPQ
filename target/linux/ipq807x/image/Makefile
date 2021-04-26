@@ -9,7 +9,6 @@ UBI_OPTS = -m 2048 -p 128KiB
 IPQ807X_KERNEL_SIZE=6044k
 IPQ807X_ROOTFS_SIZE=40036k
 IPQ807X_32_KERNEL_LOADADDR = 0x41208000
-IPQ807X_32_INITRAMFS_KERNEL_LOADADDR = 0x43208000
 IPQ807X_KERNEL_LOADADDR = 0x41080000
 
 ifneq ($(CONFIG_TARGET_ROOTFS_UBIFS),)
@@ -78,7 +77,7 @@ endef
 
 define Image/BuildKernel/ipq807x_32
 	$(foreach device, $(call FindDeviceTrees, ipq8074-), \
-		$(call Image/BuildKernel/$(1),$(device),$(if $(findstring FITInitramfs,$(1)),$(IPQ807X_32_INITRAMFS_KERNEL_LOADADDR),$(IPQ807X_32_KERNEL_LOADADDR)));)
+		$(call Image/BuildKernel/$(1),$(device),$(IPQ807X_32_KERNEL_LOADADDR));)
 
 	$(call Image/BuildKernel/MultiDTBFIT,ipq8074-hkxx, \
 		$(call FindDeviceTrees, ipq8074-), $(IPQ807X_32_KERNEL_LOADADDR))

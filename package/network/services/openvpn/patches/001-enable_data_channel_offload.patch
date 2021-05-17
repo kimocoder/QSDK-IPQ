@@ -20,7 +20,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  	[x509-alt-username],
  	[AS_HELP_STRING([--enable-x509-alt-username], [enable the --x509-username-field feature @<:@default=no@:>@])],
  	,
-@@ -1227,6 +1233,10 @@ test "${enable_def_auth}" = "yes" && AC_
+@@ -1228,6 +1234,10 @@ test "${enable_def_auth}" = "yes" && AC_
  test "${enable_pf}" = "yes" && AC_DEFINE([ENABLE_PF], [1], [Enable internal packet filter])
  test "${enable_strict_options}" = "yes" && AC_DEFINE([ENABLE_STRICT_OPTIONS_CHECK], [1], [Enable strict options check between peers])
  
@@ -45,7 +45,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  
  AM_CFLAGS = \
  	$(TAP_CFLAGS) \
-@@ -119,7 +122,8 @@ openvpn_SOURCES = \
+@@ -120,7 +123,8 @@ openvpn_SOURCES = \
  	tls_crypt.c tls_crypt.h \
  	tun.c tun.h \
  	win32.h win32.c \
@@ -148,7 +148,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
          c->c2.link_read_bytes += c->c2.buf.len;
          link_read_bytes_global += c->c2.buf.len;
  #ifdef ENABLE_MEMSTATS
-@@ -1015,8 +1052,10 @@ process_incoming_link(struct context *c)
+@@ -1018,8 +1055,10 @@ process_incoming_link(struct context *c)
      struct link_socket_info *lsi = get_link_socket_info(c);
      const uint8_t *orig_buf = c->c2.buf.data;
  
@@ -161,7 +161,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  
      perf_pop();
  }
-@@ -1598,6 +1637,13 @@ pre_select(struct context *c)
+@@ -1601,6 +1640,13 @@ pre_select(struct context *c)
      check_send_occ_msg(c);
  #endif
  
@@ -175,7 +175,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  #ifdef ENABLE_FRAGMENT
      /* Should we deliver a datagram fragment to remote? */
      check_fragment(c);
-@@ -1630,6 +1676,9 @@ io_wait_dowork(struct context *c, const
+@@ -1633,6 +1679,9 @@ io_wait_dowork(struct context *c, const
  #ifdef ENABLE_ASYNC_PUSH
      static int file_shift = 8;     /* listening inotify events */
  #endif
@@ -185,7 +185,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  
      /*
       * Decide what kind of events we want to wait for.
-@@ -1746,6 +1795,10 @@ io_wait_dowork(struct context *c, const
+@@ -1749,6 +1798,10 @@ io_wait_dowork(struct context *c, const
      }
  #endif
  
@@ -196,7 +196,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
      /*
       * Possible scenarios:
       *  (1) tcp/udp port has data available to read
-@@ -1824,6 +1877,13 @@ process_io(struct context *c)
+@@ -1827,6 +1880,13 @@ process_io(struct context *c)
      }
  #endif
  
@@ -233,7 +233,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
              multi_route_del(r);
              hash_iterator_delete_element(&hi);
          }
-@@ -685,6 +692,14 @@ multi_close_instance(struct multi_contex
+@@ -683,6 +690,14 @@ multi_close_instance(struct multi_contex
      set_cc_config(mi, NULL);
  #endif
  
@@ -245,10 +245,10 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
 +    }
 +#endif
 +
-     multi_client_disconnect_script(m, mi);
+     multi_client_disconnect_script(mi);
  
      if (mi->did_open_context)
-@@ -773,6 +788,7 @@ multi_create_instance(struct multi_conte
+@@ -771,6 +786,7 @@ multi_create_instance(struct multi_conte
  
      perf_push(PERF_MULTI_CREATE_INSTANCE);
  
@@ -256,7 +256,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
      msg(D_MULTI_MEDIUM, "MULTI: multi_create_instance called");
  
      ALLOC_OBJ_CLEAR(mi, struct multi_instance);
-@@ -1210,6 +1226,11 @@ multi_get_instance_by_virtual_addr(struc
+@@ -1208,6 +1224,11 @@ multi_get_instance_by_virtual_addr(struc
          }
      }
  
@@ -268,7 +268,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  #ifdef ENABLE_DEBUG
      if (check_debug_level(D_MULTI_DEBUG))
      {
-@@ -2979,6 +3000,13 @@ stale_route_check_trigger(struct multi_c
+@@ -3000,6 +3021,13 @@ stale_route_check_trigger(struct multi_c
  void
  multi_process_per_second_timers_dowork(struct multi_context *m)
  {
@@ -320,7 +320,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  
      unsigned int event_set_status;
  
-@@ -491,6 +494,9 @@ struct context_2
+@@ -492,6 +495,9 @@ struct context_2
  #ifdef ENABLE_ASYNC_PUSH
      int inotify_fd; /* descriptor for monitoring file changes */
  #endif
@@ -384,7 +384,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  
      uninit_options(&defaults);
  }
-@@ -8244,6 +8261,13 @@ add_option(struct options *options,
+@@ -8275,6 +8292,13 @@ add_option(struct options *options,
          VERIFY_PERMISSION(OPT_P_GENERAL);
          options->allow_recursive_routing = true;
      }
@@ -2123,7 +2123,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  static struct context *static_context; /* GLOBAL */
  
  /*
-@@ -2115,6 +2119,12 @@ do_up(struct context *c, bool pulled_opt
+@@ -2130,6 +2134,12 @@ do_up(struct context *c, bool pulled_opt
              c->c1.pulled_options_digest_save = c->c2.pulled_options_digest;
  #endif
  
@@ -2136,7 +2136,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
              /* if --route-delay was specified, start timer */
              if ((route_order() == ROUTE_AFTER_TUN) && c->options.route_delay_defined)
              {
-@@ -4288,6 +4298,12 @@ init_instance(struct context *c, const s
+@@ -4312,6 +4322,12 @@ init_instance(struct context *c, const s
      }
  #endif
  
@@ -2149,7 +2149,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
      /* Check for signals */
      if (IS_SIG(c))
      {
-@@ -4322,6 +4338,20 @@ close_instance(struct context *c)
+@@ -4346,6 +4362,20 @@ close_instance(struct context *c)
          /* if xinetd/inetd mode, don't allow restart */
          do_close_check_if_restart_permitted(c);
  
@@ -2273,7 +2273,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  #ifndef ENABLE_OCC
  static const char ssl_default_options_string[] = "V0 UNDEF";
  #endif
-@@ -906,10 +910,18 @@ is_hard_reset(int op, int key_method)
+@@ -904,10 +908,18 @@ is_hard_reset(int op, int key_method)
  static void
  key_state_init(struct tls_session *session, struct key_state *ks)
  {
@@ -2292,7 +2292,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
      /*
       * Build TLS object that reads/writes ciphertext
       * to/from memory BIOs.
-@@ -986,6 +998,15 @@ key_state_init(struct tls_session *sessi
+@@ -984,6 +996,15 @@ key_state_init(struct tls_session *sessi
  static void
  key_state_free(struct key_state *ks, bool clear)
  {
@@ -2308,7 +2308,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
      ks->state = S_UNDEF;
  
      key_state_ssl_free(&ks->ks_ssl);
-@@ -1028,6 +1049,10 @@ key_state_free(struct key_state *ks, boo
+@@ -1026,6 +1047,10 @@ key_state_free(struct key_state *ks, boo
      {
          secure_memzero(ks, sizeof(*ks));
      }
@@ -2319,7 +2319,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  }
  
  /** @} name Functions for initialization and cleanup of key_state structures */
-@@ -1079,10 +1104,22 @@ static void
+@@ -1077,10 +1102,22 @@ static void
  tls_session_init(struct tls_multi *multi, struct tls_session *session)
  {
      struct gc_arena gc = gc_new();
@@ -2342,7 +2342,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  
      /* Set options data to point to parent's option structure */
      session->opt = &multi->opt;
-@@ -1178,7 +1215,7 @@ tls_session_free(struct tls_session *ses
+@@ -1176,7 +1213,7 @@ tls_session_free(struct tls_session *ses
  static void
  move_session(struct tls_multi *multi, int dest, int src, bool reinit_src)
  {
@@ -2351,7 +2351,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
          session_index_name(dest),
          session_index_name(src),
          reinit_src);
-@@ -2878,6 +2915,16 @@ tls_process(struct tls_multi *multi,
+@@ -2913,6 +3020,16 @@ tls_process(struct tls_multi *multi,
                  }
                  state_change = true;
                  ks->state = S_ACTIVE;
@@ -2381,7 +2381,7 @@ Signed-off-by: Ratheesh Kannoth <rkannoth@codeaurora.org>
  #ifdef HAVE_SYS_EPOLL_H
 --- a/src/openvpn/push.c
 +++ b/src/openvpn/push.c
-@@ -681,6 +681,16 @@ process_incoming_push_request(struct con
+@@ -692,6 +692,16 @@ process_incoming_push_request(struct con
              }
              gc_free(&gc);
          }

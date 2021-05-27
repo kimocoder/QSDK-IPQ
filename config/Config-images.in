@@ -155,8 +155,8 @@ menu "Target Images"
 
 	menuconfig TARGET_ROOTFS_UBIFS
 		bool "ubifs"
-		default y if USES_UBIFS
-		depends on USES_UBIFS
+		select USES_UBIFS
+		default n
 		help
 		  Build a UBIFS root filesystem.
 

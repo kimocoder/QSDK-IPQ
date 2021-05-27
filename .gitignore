@@ -15,10 +15,12 @@
 /files
 /overlay
 /package/feeds
-/package/openwrt-packages
 /*.patch
 key-build*
 /qca
+/qsdk-package
+scripts/fossid-exclude-pattern
+scripts/fossid.sh
 *.orig
 *.rej
 *~

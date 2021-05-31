@@ -1064,3 +1064,11 @@ config KERNEL_CC_OPTIMIZE_FOR_SIZE
 	  your compiler resulting in a smaller kernel.
 
 endchoice
+
+config KERNEL_STRICT_KERNEL_RWX
+	bool "Make kernel text and rodata read-only"
+	default y if arm || aarch64
+
+config KERNEL_STRICT_MODULE_RWX
+	bool "Set loadable kernel module data as NX and text as RO"
+	default y if arm || aarch64

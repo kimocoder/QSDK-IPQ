@@ -246,7 +246,7 @@ $(eval $(call Profile,QSDK_Open))
 
 define Profile/QSDK_512
 	NAME:=Qualcomm Technologies, Inc SDK 512MB Profile
-	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) $(CD_ROUTER) \
+	PACKAGES:=$(OPENWRT_STANDARD) $(STORAGE) $(CD_ROUTER) $(SWITCH_SSDK_PKGS) \
 		$(UTILS) $(TEST_TOOLS) $(COREBSP_UTILS) $(AQ_PHY) $(FAILSAFE) \
 		-lacpd $(USB_DIAG) $(KPI)
 endef

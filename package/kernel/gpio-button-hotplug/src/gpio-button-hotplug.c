@@ -127,7 +127,7 @@ int bh_event_add_var(struct bh_event *event, int argv, const char *format, ...)
 	s = skb_put(event->skb, len + 1);
 	strcpy(s, buf);
 
-	pr_debug(PFX "added variable '%s'\n", s);
+	pr_err(PFX "added variable '%s'\n", s);
 
 	return 0;
 }
@@ -206,7 +206,7 @@ static int button_hotplug_create_event(const char *name, unsigned int type,
 {
 	struct bh_event *event;
 
-	pr_debug(PFX "create event, name=%s, seen=%lu, pressed=%d\n",
+	pr_err(PFX "create event, name=%s, seen=%lu, pressed=%d\n",
 		 name, seen, pressed);
 
 	event = kzalloc(sizeof(*event), GFP_KERNEL);

@@ -4,7 +4,7 @@ NSS_COMMON:= \
 	kmod-qca-nss-drv \
 	kmod-qca-nss-gmac
 
-#NSS_EIP197_FW:=
+NSS_EIP197_FW:=qca-nss-fw-eip-al
 
 NSS_STANDARD:= \
 	qca-nss-fw-al-retail
@@ -50,7 +50,7 @@ NSS_CLIENTS_ENTERPRISE:= kmod-qca-nss-drv-qdisc kmod-qca-nss-drv-profile \
 	kmod- kmod-qca-nss-drv-bridge-mgr kmod-qca-nss-drv-netlink kmod-qca-nss-drv-tlsmgr \
 	kmod-qca-nss-drv-match kmod-qca-nss-drv-mirror kmod-qca-nss-drv-mscs
 
-NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi kmod-qca-nss-cfi-ocf kmod-qca-nss-drv-ipsecmgr kmod-crypto-ocf kmod-qca-nss-drv-ipsecmgr-klips
+NSS_CRYPTO:= kmod-qca-nss-crypto kmod-qca-nss-cfi-cryptoapi kmod-qca-nss-drv-ipsecmgr kmod-qca-nss-drv-ipsecmgr-xfrm
 
 NSS_RMNET:= kmod-rmnet-nss
 
@@ -191,9 +191,9 @@ define Profile/QSDK_Premium
 		$(MINIDUMP) $(SWITCH_SSDK_PKGS) $(CD_ROUTER) \
 		$(NSS_COMMON) $(NSS_STANDARD) $(QCA_ECM_PREMIUM) $(NSS_CRYPTO) \
 		$(NETWORKING) $(NSS_CLIENTS_STANDARD) $(NSS_USERSPACE) \
-		$(HW_CRYPTO) $(IPSEC)
+		$(HW_CRYPTO) $(IPSEC) $(NSS_EIP197_FW)
 endef
-#		$(FTM) $(QMSCT_CLIENT) $(NSS_EIP197_FW) $(IGMPSNOOPING_RSTP) \
+#		$(FTM) $(QMSCT_CLIENT) $(IGMPSNOOPING_RSTP) \
 #		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(MAP_PKGS) \
 #		$(OPENVPN) $(QOS) $(HYFI) $(NSS_MACSEC) $(NSS_RMNET) \
 #		$(SHORTCUT_FE) $(QCA_MAD) $(CNSS_DIAG) kmod-art2 \

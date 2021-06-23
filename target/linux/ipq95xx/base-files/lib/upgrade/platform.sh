@@ -198,6 +198,7 @@ do_flash_tz() {
 
 	if [ -n "$mtdpart" -o -e "$emmcblock" ]; then
 		do_flash_failsafe_partition ${sec} "0:QSEE"
+		do_flash_failsafe_partition ${sec} "0:QSEE_1"
 	else
 		do_flash_failsafe_partition ${sec} "0:TZ"
 	fi
@@ -269,7 +270,8 @@ flash_section() {
 			;;
 		fs*) switch_layout linux; do_flash_failsafe_partition ${sec} "rootfs";;
 		ubi*) switch_layout linux; image_is_nand || return && do_flash_ubi ${sec} "rootfs";;
-		sbl1*) switch_layout boot; do_flash_partition ${sec} "0:SBL1";;
+		sbl1*) switch_layout boot; do_flash_partition ${sec} "0:SBL1"; \
+			do_flash_partition ${sec} "0:SBL1_1";;
 		sbl2*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:SBL2";;
 		sbl3*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:SBL3";;
 		dtb-$(to_upper $board)*) switch_layout boot; do_flash_partition ${sec} "0:DTB";;
@@ -278,7 +280,8 @@ flash_section() {
 		ddr-$(to_upper $board_model)*) switch_layout boot; do_flash_ddr ${sec};;
 		ddr-${board_model}-*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:DDRCONFIG";;
 		tz*) switch_layout boot; do_flash_tz ${sec};;
-		tme*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:TME";;
+		tme*) switch_layout boot; do_flash_partition ${sec} "0:TME"; \
+			do_flash_partition ${sec} "0:TME_1";;
 		devcfg*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:DEVCFG";;
 		rpm*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:RPM";;
 		*) echo "Section ${sec} ignored"; return 1;;

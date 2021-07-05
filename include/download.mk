@@ -314,7 +314,14 @@ define Download/default
   $(if $(PKG_HASH),HASH:=$(PKG_HASH))
 endef
 
+FindPackage?=$(strip $(shell find $(TOPDIR)/qsdk-package -name $(1) 2>/dev/null))
+
+define Download/qsdk-package
+  $(eval -include $(wildcard $(call FindPackage,$(basename $(notdir $(CURDIR))))/$(PKG_NAME).mk))
+endef
+
 define Download
+  $(Download/qsdk-package)
   $(eval $(Download/Defaults))
   $(eval $(Download/$(1)))
   $(foreach FIELD,URL FILE $(Validate/$(call dl_method,$(URL),$(PROTO))),

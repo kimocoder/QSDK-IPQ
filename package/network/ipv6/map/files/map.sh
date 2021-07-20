@@ -82,7 +82,6 @@ proto_map_setup() {
 		json_add_string mode ipip6
 		json_add_int mtu "${mtu:-1280}"
 		json_add_int ttl "${ttl:-64}"
-		json_add_int draft03 "${draft03:0}"
 		if [ "$mode" = br ]; then
 			json_add_string remote $(eval "echo \$RULE_${k}_IPV6ADDR")
 			json_add_string local $(eval "echo \$RULE_${k}_BR")
@@ -94,6 +93,8 @@ proto_map_setup() {
 		json_add_string link $(eval "echo \$RULE_${k}_PD6IFACE")
 		json_add_object "data"
 			[ -n "$encaplimit" ] && json_add_string encaplimit "$encaplimit"
+			# In Openwrt 19.07, draft03 field is inside "data", so draft03 should be added here.
+			json_add_int draft03 "${draft03:0}"
 			if [ "$type" = "map-e" ]; then
 				json_add_array "fmrs"
 				for i in $(seq $RULE_COUNT); do

@@ -52,6 +52,7 @@ $(if $(URL),$(URL)
 )$(MAINTAINER)
 @@
 $(if $(Package/$(1)/config),Config:
+$(Package/$(1)/overrideconfig)
 $(Package/$(1)/config)
 @@
 ))

@@ -17,7 +17,7 @@ PKG_SOURCE_URL:=https://www.busybox.net/downloads \
 		http://sources.buildroot.net
 PKG_HASH:=3d1d04a4dbd34048f4794815a5c48ebb9eb53c5277e09ffffc060323b95dfbdc
 
-PKG_BUILD_DEPENDS:=BUSYBOX_CONFIG_PAM:libpam opkg/host
+PKG_BUILD_DEPENDS:=BUSYBOX_CONFIG_PAM:libpam
 PKG_BUILD_PARALLEL:=1
 PKG_CHECK_FORMAT_SECURITY:=0
 
@@ -107,7 +107,6 @@ define Package/busybox/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(CP) $(PKG_INSTALL_DIR)/* $(1)/
-	$(INSTALL_BIN) ./files/inetd $(1)/etc/init.d/inetd
 ifneq ($(CONFIG_BUSYBOX_$(BUSYBOX_SYM)_CROND),)
 	$(INSTALL_BIN) ./files/cron $(1)/etc/init.d/cron
 endif
@@ -116,11 +115,6 @@ ifneq ($(CONFIG_BUSYBOX_$(BUSYBOX_SYM)_NTPD),)
 	$(INSTALL_BIN) ./files/ntpd-hotplug $(1)/usr/sbin/ntpd-hotplug
 endif
 	-rm -rf $(1)/lib64
-ifneq ($(CONFIG_BUSYBOX_CONFIG_FEATURE_USE_INITTAB),)
-	mkdir -p $(1)/etc/init.d
-	$(CP) ./files/etc/inittab $(1)/etc/inittab
-	$(CP) ./files/etc/init.d/rcS $(1)/etc/init.d/rcS
-endif
 endef
 
 $(eval $(call BuildPackage,busybox))

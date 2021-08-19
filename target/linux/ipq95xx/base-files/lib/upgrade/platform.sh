@@ -100,6 +100,10 @@ do_flash_mtd() {
 	local append=""
 
 	local mtdpart=$(grep "\"${mtdname}\"" /proc/mtd | awk -F: '{print $1}')
+	if [ ! -n "$mtdpart" ]; then
+		echo "$mtdname is not available" && return
+	fi
+
 	local pgsz=$(cat /sys/class/mtd/${mtdpart}/writesize)
 	[ -f "$UPGRADE_BACKUP" -a "$2" == "rootfs" ] && append="-j $UPGRADE_BACKUP"
 

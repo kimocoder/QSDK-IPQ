@@ -193,7 +193,7 @@ define Profile/QSDK_Premium
 		$(NETWORKING) $(NSS_CLIENTS_STANDARD) $(NSS_USERSPACE) \
 		$(HW_CRYPTO) $(IPSEC) $(NSS_EIP197_FW) $(NSS_MACSEC) \
 		$(WIFI_PKGS) $(WIFI_FW_PKGS) $(FTM) kmod-qca-hyfi-bridge \
-		$(IGMPSNOOPING_RSTP)
+		$(IGMPSNOOPING_RSTP) $(CNSS_DIAG)
 endef
 #		$(QMSCT_CLIENT) \
 #		$(OPENVPN) $(QOS) $(HYFI) $(NSS_RMNET) \

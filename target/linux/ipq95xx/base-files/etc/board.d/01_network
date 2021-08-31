@@ -30,8 +30,13 @@ ipq95xx_setup_interfaces()
 	case "$board" in
 	qcom,ipq9574-ap-al01-c1 |\
 	qcom,ipq9574-ap-al02-c1 |\
+	qcom,ipq9574-ap-al02-c2 |\
 	qcom,ipq9574-db-al01-c1 |\
-	qcom,ipq9574-db-al02-c1 )
+	qcom,ipq9574-db-al01-c2 |\
+	qcom,ipq9574-db-al01-c3 |\
+	qcom,ipq9574-db-al02-c1 |\
+	qcom,ipq9574-db-al02-c2 |\
+	qcom,ipq9574-db-al02-c3)
 		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3 eth4 eth5" "eth0"
 		;;
 	*)

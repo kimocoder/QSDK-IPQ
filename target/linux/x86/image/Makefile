@@ -164,7 +164,7 @@ define Image/Prepare
 endef
 
 define Image/Build/Initramfs
-	$(CP) $(KDIR)/bzImage-initramfs $(BIN_DIR)/$(IMG_PREFIX)-ramfs.bzImage
+	$(CP) $(KDIR)/bzImage-initramfs $(BIN_DIR)/$(IMG_PREFIX)-ramfs$(CONFIG_WHUNT_IMAGE_SUFFIX).bzImage
 endef
 
 define Image/Build

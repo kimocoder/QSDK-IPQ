@@ -131,7 +131,7 @@ _wifi_updown() {
 
 	for driver in ${DRIVERS}; do (
 		if eval "type post_${driver}" 2>/dev/null >/dev/null; then
-			eval "post_${driver}" ${1}
+			eval "post_${driver}" ${1} "$2" "$3"
 		fi
 	); done
 }

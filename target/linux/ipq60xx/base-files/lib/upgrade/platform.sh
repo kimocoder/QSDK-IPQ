@@ -265,6 +265,7 @@ flash_section() {
 				echo "Section ${sec} ignored"; return 1;
 			fi
 			;;
+		btfw-*) switch_layout linux; do_flash_failsafe_partition ${sec} "0:BTFW";;
 		fs*) switch_layout linux; do_flash_failsafe_partition ${sec} "rootfs";;
 		ubi*) switch_layout linux; image_is_nand || return && do_flash_ubi ${sec} "rootfs";;
 		sbl1*) switch_layout boot; do_flash_partition ${sec} "0:SBL1";;
@@ -273,7 +274,7 @@ flash_section() {
 		dtb-$(to_upper $board)*) switch_layout boot; do_flash_partition ${sec} "0:DTB";;
 		u-boot*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:APPSBL";;
 		lkboot*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:APPSBL";;
-		ddr-$(to_upper $board_model)*) switch_layout boot; do_flash_ddr ${sec};;
+		ddr-$(to_upper $board_model)_*) switch_layout boot; do_flash_ddr ${sec};;
 		ddr-${board_model}-*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:DDRCONFIG";;
 		tz*) switch_layout boot; do_flash_tz ${sec};;
 		devcfg*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:DEVCFG";;
@@ -388,7 +389,15 @@ platform_do_upgrade() {
 	done
 
 	case "$board" in
-	qcom,ipq6018-ap-cp01-c1)
+	qcom,ipq6018-ap-cp01-c1 |\
+	qcom,ipq6018-ap-cp01-c2 |\
+	qcom,ipq6018-ap-cp01-c3 |\
+	qcom,ipq6018-ap-cp01-c4 |\
+	qcom,ipq6018-ap-cp01-c5 |\
+	qcom,ipq6018-ap-cp02-c1 |\
+	qcom,ipq6018-ap-cp03-c1 |\
+	qcom,ipq6018-db-cp01 |\
+	qcom,ipq6018-db-cp02)
 		for sec in $(print_sections $1); do
 			flash_section ${sec}
 		done

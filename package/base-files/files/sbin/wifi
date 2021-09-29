@@ -243,6 +243,7 @@ set_wifi_down() {
 scan_wifi() {
 	local cfgfile="$1"
 	DEVICES=
+	MLD_DEVICES=
 	config_cb() {
 		local type="$1"
 		local section="$2"
@@ -265,6 +266,9 @@ scan_wifi() {
 				append vifs "$CONFIG_SECTION"
 				config_set "$device" vifs "$vifs"
 			;;
+			wifi-mld)
+				append MLD_DEVICES "$CONFIG_SECTION"
+			;;
 		esac
 	}
 	config_load "${cfgfile:-wireless}"
@@ -279,6 +283,7 @@ wifi_trap() {
 }
 
 DEVICES=
+MLD_DEVICES=
 DRIVERS=
 include /lib/wifi
 scan_wifi

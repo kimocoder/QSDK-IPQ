@@ -9,14 +9,6 @@ IPQ95XX_ROOTFS_SIZE=40036k
 IPQ95XX_32_KERNEL_LOADADDR = 0x42008000
 IPQ95XX_KERNEL_LOADADDR = 0x42080000
 
-ifneq ($(CONFIG_TARGET_ROOTFS_UBIFS),)
-define Image/mkfs/ubifs_fit
-	$(eval UBI_OPTS:="-m 2048 -p 128KiB")
-	$(call Image/mkfs/ubifs/generate,$(1))
-	$(call Image/Build,ubi,$(1))
-endef
-endif
-
 define CompressLzma
 	$(STAGING_DIR_HOST)/bin/lzma e $(1) -lc1 -lp2 -pb2 $(2)
 endef
@@ -94,10 +86,6 @@ define Image/BuildKernel/Initramfs
 	$(CP) $(KDIR)/vmlinux-initramfs$(subst openwrt-ipq95xx$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug $(BIN_DIR)/$(IMG_PREFIX)-vmlinux-initramfs.elf
 	$(call Image/BuildKernel/template,FITInitramfs)
 	$(call Image/BuildKernel/$(SUBTARGET),FITInitramfs)
-endef
-
-define Image/Build/ubifs
-	$(call Image/mkfs/ubifs_fit,-$(SUBTARGET))
 endef
 
 define Image/Build/squashfs

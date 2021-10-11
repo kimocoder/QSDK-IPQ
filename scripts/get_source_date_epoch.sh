@@ -3,6 +3,7 @@ export LANG=C
 export LC_ALL=C
 [ -n "$TOPDIR" ] && cd $TOPDIR
 
+[[ ! -z "${QSDK_OVERRIDE_GIT_TIMESTAMP}" ]] && date +%s > version.date
 try_version() {
 	[ -f version.date ] || return 1
 	SOURCE_DATE_EPOCH="$(cat version.date)"

@@ -5,7 +5,7 @@ CPU_TYPE:=cortex-a53
 KERNELNAME:=Image dtbs
 
 DEFAULT_PACKAGES += \
-	sysupgrade-helper kmod-usb-phy-ipq60xx kmod-usb-dwc3-qcom-internal
+	sysupgrade-helper
 
 define Target/Description
 	Build firmware image for IPQ60xx 64 bit system.

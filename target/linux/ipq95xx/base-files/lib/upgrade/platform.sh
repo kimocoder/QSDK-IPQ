@@ -90,6 +90,7 @@ do_flash_mtd() {
 	local append=""
 	local mtdname_rootfs="rootfs"
 	local boot_layout=`find / -name boot_layout`
+	local flash_type=`fw_printenv | grep flash_type=11`
 
 	local mtdpart=$(grep "\"${mtdname}\"" /proc/mtd | awk -F: '{print $1}')
 	if [ ! -n "$mtdpart" ]; then
@@ -99,7 +100,10 @@ do_flash_mtd() {
 	local pgsz=$(cat /sys/class/mtd/${mtdpart}/writesize)
 
 	local mtdpart_rootfs=$(grep "\"${mtdname_rootfs}\"" /proc/mtd | awk -F: '{print $1}')
-	if [ $mtdname == "0:SBL1" -a -n $boot_layout ]; then
+
+	# This switch is required only for QSPI NAND boot with 4K page size
+	# since PBL doesn't have 4K page support.
+	if [ $mtdname == "0:SBL1" -a -n $boot_layout -a -n $flash_type ]; then
 		mtd erase "/dev/${mtdpart}"
 		ubidetach -f -p /dev/${mtdpart_rootfs}
 		# Switch to 2K layout for flashing (writing) SBL partition

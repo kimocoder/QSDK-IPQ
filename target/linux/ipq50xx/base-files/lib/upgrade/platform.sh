@@ -473,6 +473,7 @@ platform_do_upgrade() {
 	qcom,ipq5018-ap-mp03.5-c2 |\
 	qcom,ipq5018-ap-mp03.6-c1 |\
 	qcom,ipq5018-ap-mp03.6-c2 |\
+	qcom,ipq5018-ap-mp05.1 |\
 	qcom,ipq5018-db-mp02.1 |\
 	qcom,ipq5018-db-mp03.1 |\
 	qcom,ipq5018-db-mp03.1-c2 |\

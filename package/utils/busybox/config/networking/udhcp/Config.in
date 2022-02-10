@@ -7,7 +7,6 @@
 config BUSYBOX_CONFIG_UDHCPD
 	bool "udhcpd (21 kb)"
 	default BUSYBOX_DEFAULT_UDHCPD
-	select BUSYBOX_CONFIG_PLATFORM_LINUX
 	help
 	udhcpd is a DHCP server geared primarily toward embedded systems,
 	while striving to be fully functional and RFC compliant.
@@ -63,7 +62,6 @@ config BUSYBOX_CONFIG_DHCPRELAY
 config BUSYBOX_CONFIG_UDHCPC
 	bool "udhcpc (24 kb)"
 	default BUSYBOX_DEFAULT_UDHCPC
-	select BUSYBOX_CONFIG_PLATFORM_LINUX
 	help
 	udhcpc is a DHCP client geared primarily toward embedded systems,
 	while striving to be fully functional and RFC compliant.
@@ -104,7 +102,7 @@ config BUSYBOX_CONFIG_UDHCPC_DEFAULT_SCRIPT
 # udhcpc6 config is inserted here:
 config BUSYBOX_CONFIG_UDHCPC6
 	bool "udhcpc6 (21 kb)"
-	default BUSYBOX_DEFAULT_UDHCPC6  # not yet ready
+	default BUSYBOX_DEFAULT_UDHCPC6
 	depends on BUSYBOX_CONFIG_FEATURE_IPV6
 	help
 	udhcpc6 is a DHCPv6 client

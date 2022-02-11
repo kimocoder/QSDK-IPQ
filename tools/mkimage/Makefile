@@ -23,6 +23,8 @@ define Host/Prepare
 	touch $(HOST_BUILD_DIR)/include/config/auto.conf
 endef
 
+HOST_LDFLAGS += -static
+
 define Host/Compile
 	$(MAKE) -C $(HOST_BUILD_DIR) \
 		HOSTCFLAGS="$(HOST_CFLAGS)" \

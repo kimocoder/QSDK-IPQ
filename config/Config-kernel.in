@@ -1080,3 +1080,7 @@ config KERNEL_STRICT_KERNEL_RWX
 config KERNEL_STRICT_MODULE_RWX
 	bool "Set loadable kernel module data as NX and text as RO"
 	default y if arm || aarch64
+
+config KERNEL_SRD_TRACE
+	bool "Enable SRD TRACE"
+	default n

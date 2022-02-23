@@ -17,10 +17,11 @@
 . /lib/functions.sh
 . /lib/upgrade/common.sh
 
+RAMFS_COPY_DATA="/etc/fw_env.config /var/lock/fw_printenv.lock"
 RAMFS_COPY_BIN="/usr/bin/dumpimage /bin/mktemp /usr/sbin/mkfs.ubifs
 	/usr/sbin/ubiattach /usr/sbin/ubidetach /usr/sbin/ubiformat /usr/sbin/ubimkvol
 	/usr/sbin/ubiupdatevol /usr/bin/basename /bin/rm /usr/bin/find
-	/usr/sbin/mkfs.ext4"
+	/usr/sbin/mkfs.ext4 /usr/sbin/fw_printenv"
 
 get_full_section_name() {
 	local img=$1

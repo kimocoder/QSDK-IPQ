@@ -50,7 +50,7 @@ define Image/BuildKernel/MultiDTBFIT
 	$(foreach dtb, $(2), gzip -9 -c $(DTS_DIR)/$(dtb).dtb > $(DTS_DIR)/$(dtb).dtb.gz;)
 	$(call CompressLzma,$(KDIR)/Image,$(KDIR)/Image.lzma)
 	$(call Image/BuildKernel/MkFITMulti,$(1),$(KDIR)/Image.lzma,$(2),lzma,$(3),$(3),$(4),$(5))
-	$$(call sizecheck, $(IPQ60XX_KERNEL_SIZE), $(KDIR)/fit-$(1).itb)
+	$$(if $$(CONFIG_DEBUG), ,$$(call sizecheck, $(IPQ60XX_KERNEL_SIZE), $(KDIR)/fit-$(1).itb))
 	$(CP) $(KDIR)/fit-$(1).itb $(BIN_DIR)/$(IMG_PREFIX)-$(1)-fit-uImage.itb
 endef
 
@@ -96,7 +96,7 @@ endef
 
 define Image/Build/squashfs
 	$(call prepare_generic_squashfs,$(KDIR)/root.squashfs)
-	$$(call sizecheck, $(IPQ60XX_ROOTFS_SIZE), $(KDIR)/root.squashfs)
+	$$(if $$(CONFIG_DEBUG), ,$$(call sizecheck, $(IPQ60XX_ROOTFS_SIZE), $(KDIR)/root.squashfs))
 endef
 
 define Image/Build

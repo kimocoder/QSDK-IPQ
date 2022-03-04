@@ -1084,3 +1084,13 @@ config KERNEL_STRICT_MODULE_RWX
 config KERNEL_SRD_TRACE
 	bool "Enable SRD TRACE"
 	default n
+
+config KERNEL_HWMON
+        tristate "Hardware Monitoring support"
+        depends on HAS_IOMEM
+
+config HAS_IOMEM
+        bool
+        depends on !NO_IOMEM
+        select GENERIC_IO
+        default y

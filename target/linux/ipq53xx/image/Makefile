@@ -27,6 +27,7 @@ define Image/BuildKernel/FIT
 	$(call Image/BuildKernel/MkFIT,$(1), $(KDIR)/Image.lzma, $(DTS_DIR)/$(1).dtb,lzma,$(2),$(2))
 	$(CP) $(KDIR)/fit-$(1).itb $(BIN_DIR)/$(IMG_PREFIX)-$(1)-fit-uImage.itb
 	mkdir -p $(BIN_DIR)/dtbs/
+	$(CP) $(DTS_DIR)/devsoc-emulation*.dtb  $(BIN_DIR)/dtbs/
 	$(CP) $(KDIR)/Image $(BIN_DIR)/dtbs/
 endef
 

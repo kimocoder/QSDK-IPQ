@@ -7,6 +7,7 @@ UBI_OPTS = -m 2048 -p 128KiB
 IPQ53XX_KERNEL_SIZE=6044k
 IPQ53XX_ROOTFS_SIZE=40036k
 IPQ53XX_32_KERNEL_LOADADDR = 0x41008000
+IPQ53XX_KERNEL_LOADADDR = 0x41080000
 
 define CompressLzma
 	$(STAGING_DIR_HOST)/bin/lzma e $(1) -lc1 -lp2 -pb2 $(2)
@@ -56,6 +57,11 @@ endef
 define Image/BuildKernel/ipq53xx_32
 	$(foreach device, $(call FindDeviceTrees, devsoc-emulation), \
 		$(call Image/BuildKernel/$(1),$(device),$(IPQ53XX_32_KERNEL_LOADADDR));)
+endef
+
+define Image/BuildKernel/generic
+	$(foreach device, $(call FindDeviceTrees, devsoc-emulation), \
+		$(call Image/BuildKernel/$(1),$(device),$(IPQ53XX_KERNEL_LOADADDR));)
 endef
 
 define Image/BuildKernel

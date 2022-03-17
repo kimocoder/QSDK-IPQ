@@ -39,7 +39,7 @@ define KernelPackage/crypto-aead
 	CONFIG_CRYPTO_AEAD \
 	CONFIG_CRYPTO_AEAD2
   FILES:=$(LINUX_DIR)/crypto/aead.ko
-  AUTOLOAD:=$(call AutoLoad,09,aead,1)
+  AUTOLOAD:=$(call AutoLoad,09,aead)
   $(call AddDepends/crypto, +kmod-crypto-null)
 endef
 
@@ -112,7 +112,7 @@ define KernelPackage/crypto-crc32c
   DEPENDS:=+kmod-crypto-hash
   KCONFIG:=CONFIG_CRYPTO_CRC32C
   FILES:=$(LINUX_DIR)/crypto/crc32c_generic.ko
-  AUTOLOAD:=$(call AutoLoad,04,crc32c_generic,1)
+  AUTOLOAD:=$(call AutoLoad,04,crc32c_generic)
   $(call AddDepends/crypto)
 endef
 
@@ -267,7 +267,7 @@ define KernelPackage/crypto-hash
   TITLE:=CryptoAPI hash support
   KCONFIG:=CONFIG_CRYPTO_HASH
   FILES:=$(LINUX_DIR)/crypto/crypto_hash.ko
-  AUTOLOAD:=$(call AutoLoad,02,crypto_hash,1)
+  AUTOLOAD:=$(call AutoLoad,02,crypto_hash)
   $(call AddDepends/crypto)
 endef
 
@@ -403,7 +403,7 @@ define KernelPackage/crypto-manager
 	CONFIG_CRYPTO_MANAGER \
 	CONFIG_CRYPTO_MANAGER2
   FILES:=$(LINUX_DIR)/crypto/cryptomgr.ko
-  AUTOLOAD:=$(call AutoLoad,09,cryptomgr,1)
+  AUTOLOAD:=$(call AutoLoad,09,cryptomgr)
   $(call AddDepends/crypto)
 endef
 

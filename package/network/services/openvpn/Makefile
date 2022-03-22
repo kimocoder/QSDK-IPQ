@@ -26,7 +26,7 @@ PKG_FIXUP:=autoreconf
 PKG_BUILD_PARALLEL:=1
 PKG_LICENSE:=GPL-2.0
 
-PKG_BUILD_DEPENDS:=qca-nss-clients
+PKG_BUILD_DEPENDS:=PACKAGE_kmod-qca-nss-drv-ovpn-mgr:kmod-qca-nss-drv-ovpn-mgr PACKAGE_kmod-qca-nss-drv-ovpn-link:kmod-qca-nss-drv-ovpn-link
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -37,7 +37,8 @@ define Package/openvpn/Default
   URL:=http://openvpn.net
   SUBMENU:=VPN
   MENU:=1
-  DEPENDS:=+kmod-tun +OPENVPN_$(1)_ENABLE_LZO:liblzo +OPENVPN_$(1)_ENABLE_IPROUTE2:ip $(3)
+  DEPENDS:=PACKAGE_kmod-qca-nss-drv-ovpn-mgr:kmod-qca-nss-drv-ovpn-mgr PACKAGE_kmod-qca-nss-drv-ovpn-link:kmod-qca-nss-drv-ovpn-link \
+	  +kmod-tun +OPENVPN_$(1)_ENABLE_LZO:liblzo +OPENVPN_$(1)_ENABLE_IPROUTE2:ip $(3)
   VARIANT:=$(1)
 ifeq ($(1),nossl)
   PROVIDES:=openvpn

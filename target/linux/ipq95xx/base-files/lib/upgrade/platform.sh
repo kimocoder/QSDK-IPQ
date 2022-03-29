@@ -408,6 +408,7 @@ platform_do_upgrade() {
 	case "$board" in
 	qcom,ipq9574-ap-al01-c1 |\
 	qcom,ipq9574-ap-al02-c1 |\
+	qcom,ipq9574-ap-al03-c1 |\
 	qcom,ipq9574-ap-al02-c2 |\
 	qcom,ipq9574-ap-al02-c3 |\
 	qcom,ipq9574-ap-al02-c4 |\

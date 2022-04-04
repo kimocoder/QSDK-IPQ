@@ -290,6 +290,11 @@ scan_wifi
 
 trap 'wifi_trap; exit' INT TERM ABRT QUIT ALRM
 
+if grep -q 'skip_wifi' /proc/cmdline; then
+	echo "skipping wifi bringup" > /dev/console
+	exit 0
+fi
+
 case "$1" in
 	down) wifi_updown "disable" "$2" "$3";;
 	detect) wifi_detect_notice ;;

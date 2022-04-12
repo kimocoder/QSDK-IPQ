@@ -413,6 +413,7 @@ platform_do_upgrade() {
 	qcom,ipq9574-ap-al02-c4 |\
 	qcom,ipq9574-ap-al02-c5 |\
 	qcom,ipq9574-ap-al02-c6 |\
+	qcom,ipq9574-ap-al02-c9 |\
 	qcom,ipq9574-db-al01-c1 |\
 	qcom,ipq9574-db-al01-c2 |\
 	qcom,ipq9574-db-al01-c3 |\

@@ -1,1 +1,1 @@
-include $(TOPDIR)/qsdk-package/profiles/ipq95xx-qsdk.mk
+include $(TOPDIR)/qsdk-package/profiles/qsdk.mk

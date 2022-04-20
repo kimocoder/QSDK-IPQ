@@ -13,7 +13,7 @@ define KernelPackage/leds-gpio
   DEPENDS:= @GPIO_SUPPORT
   KCONFIG:=CONFIG_LEDS_GPIO
   FILES:=$(LINUX_DIR)/drivers/leds/leds-gpio.ko
-  AUTOLOAD:=$(call AutoLoad,60,leds-gpio,1)
+  AUTOLOAD:=$(call AutoLoad,60,leds-gpio)
 endef
 
 define KernelPackage/leds-gpio/description

@@ -47,7 +47,7 @@ define KernelPackage/ata-ahci
   KCONFIG:=CONFIG_SATA_AHCI
   FILES:= \
     $(LINUX_DIR)/drivers/ata/ahci.ko
-  AUTOLOAD:=$(call AutoLoad,41,libahci ahci,1)
+  AUTOLOAD:=$(call AutoLoad,91,libahci ahci)
   $(call AddDepends/ata)
 endef
 
@@ -473,7 +473,7 @@ define KernelPackage/scsi-core
   FILES:= \
 	$(LINUX_DIR)/drivers/scsi/scsi_mod.ko \
 	$(LINUX_DIR)/drivers/scsi/sd_mod.ko
-  AUTOLOAD:=$(call AutoLoad,40,scsi_mod sd_mod,1)
+  AUTOLOAD:=$(call AutoLoad,90,scsi_mod sd_mod)
 endef
 
 $(eval $(call KernelPackage,scsi-core))

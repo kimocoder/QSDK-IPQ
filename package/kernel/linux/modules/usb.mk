@@ -19,7 +19,7 @@ define KernelPackage/usb-core
   FILES:= \
 	$(LINUX_DIR)/drivers/usb/core/usbcore.ko \
 	$(LINUX_DIR)/drivers/usb/common/usb-common.ko
-  AUTOLOAD:=$(call AutoLoad,20,usb-common usbcore,1)
+  AUTOLOAD:=$(call AutoLoad,60,usb-common usbcore)
   $(call AddDepends/nls)
 endef
 
@@ -114,7 +114,7 @@ define KernelPackage/usb-gadget
   HIDDEN:=1
   FILES:=\
 	$(LINUX_DIR)/drivers/usb/gadget/udc/udc-core.ko
-  AUTOLOAD:=$(call AutoLoad,21,udc-core,1)
+  AUTOLOAD:=$(call AutoLoad,61,udc-core)
   DEPENDS:=@USB_GADGET_SUPPORT
   $(call AddDepends/usb)
 endef
@@ -983,7 +983,7 @@ define KernelPackage/usb-storage
   DEPENDS:= +kmod-scsi-core
   KCONFIG:=CONFIG_USB_STORAGE
   FILES:=$(LINUX_DIR)/drivers/usb/storage/usb-storage.ko
-  AUTOLOAD:=$(call AutoProbe,usb-storage,1)
+  AUTOLOAD:=$(call AutoLoad,69,usb-storage)
   $(call AddDepends/usb)
 endef
 
@@ -1679,7 +1679,7 @@ define KernelPackage/usb3
 	CONFIG_USB_XHCI_HCD_DEBUGGING=n
   FILES:= \
 	$(XHCI_FILES)
-  AUTOLOAD:=$(call AutoLoad,54,$(XHCI_AUTOLOAD),1)
+  AUTOLOAD:=$(call AutoLoad,64,$(XHCI_AUTOLOAD))
   $(call AddDepends/usb)
 endef
 

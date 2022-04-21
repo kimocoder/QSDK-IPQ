@@ -295,6 +295,7 @@ flash_section() {
 		tme*) switch_layout boot; do_flash_partition ${sec} "0:TME"; \
 			do_flash_partition ${sec} "0:TME_1";;
 		devcfg*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:DEVCFG";;
+		apdp*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:APDP";;
 		rpm*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:RPM";;
 		*) echo "Section ${sec} ignored"; return 1;;
 	esac

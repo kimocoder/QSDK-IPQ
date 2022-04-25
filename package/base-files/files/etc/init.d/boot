@@ -36,16 +36,10 @@ boot() {
 	grep -q debugfs /proc/filesystems && /bin/mount -o noatime -t debugfs debugfs /sys/kernel/debug
 	[ "$FAILSAFE" = "true" ] && touch /tmp/.failsafe
 
-	/sbin/kmodloader
-
-	[ ! -f /etc/config/wireless ] && {
-		# compat for brcm47xx and mvebu
-		sleep 1
-	}
-
 	/bin/config_generate
 	uci_apply_defaults
 	sync
+	nice -n -19 /sbin/kmodloader
 	
 	# temporary hack until configd exists
 	/sbin/reload_config

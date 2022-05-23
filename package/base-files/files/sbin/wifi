@@ -110,7 +110,7 @@ wifi_fixup_hwmode() {
 _wifi_updown() {
 	for driver in ${DRIVERS}; do (
 		if eval "type pre_${driver}" 2>/dev/null >/dev/null; then
-			eval "pre_${driver}" ${1}
+			eval "pre_${driver} ${1} '$2' '$3' '$4' '$5'"
 		fi
 	); done
 
@@ -154,14 +154,14 @@ wifi_recover() {
 }
 
 wifi_reload_legacy() {
-	_wifi_updown "disable" "$1"
+	_wifi_updown "disable" "$1" "$2" "$3" "$4"
 	scan_wifi
-	_wifi_updown "enable" "$1"
+	_wifi_updown "enable" "$1" "$2" "$3" "$4"
 }
 
 wifi_reload() {
 	ubus call network reload
-	wifi_reload_legacy
+	wifi_reload_legacy "" "$2"
 }
 
 wifi_detect_notice() {
@@ -175,7 +175,7 @@ wifi_config() {
 
 	for driver in $DRIVERS; do (
 		if eval "type detect_$driver" 2>/dev/null >/dev/null; then
-			eval "detect_$driver" || echo "$driver: Detect failed" >&2
+			eval "detect_$driver" "$1" || echo "$driver: Detect failed" >&2
 		else
 			echo "$driver: Hardware detection not supported" >&2
 		fi
@@ -197,12 +197,12 @@ wifi_load() {
 	wifi_unload
 	for driver in ${1:-$DRIVERS}; do (
 		if eval "type load_$driver" 2>/dev/null >/dev/null; then
-			eval "load_$driver" || echo "$driver: load failed" >&2
+			eval "load_$driver" "$2" || echo "$driver: load failed" >&2
 		else
 			echo "$driver: wifi load not supported" >&2
 		fi
 	); done
-	_wifi_updown "enable" "$1"
+	_wifi_updown "enable" "$1" "$2"
 }
 
 start_net() {(
@@ -298,16 +298,17 @@ fi
 case "$1" in
 	down) wifi_updown "disable" "$2" "$3";;
 	detect) wifi_detect_notice ;;
-	config) wifi_config ;;
+	config) wifi_config "$2";;
 	status) ubus_wifi_cmd "status" "$2";;
-	reload) wifi_reload "$2";;
-	reload_legacy) wifi_reload_legacy "$2";;
-	load) wifi_load "$2";;
+	reload) wifi_reload "$2" "wifi_reload";;
+	reload_legacy) wifi_reload_legacy "$2" "" "$1" "$3";;
+	event_reload_legacy) event_wifi_updown "enable" "$2";;
+	load) wifi_load "$2" "wifi_load";;
 	unload) wifi_unload "$2";;
 	recover) wifi_recover "$2";;
         multi_up|\
         multi_down) ubus call network reload; multi_radio_wifi_updown "$@";;
 	--help|help) usage;;
-	''|up) ubus call network reload; wifi_updown "enable" "$2" "$3";;
+	''|up) ubus call network reload; wifi_updown "enable" "$2" "$3" "wifi_up";;
 	*) usage; exit 1;;
 esac

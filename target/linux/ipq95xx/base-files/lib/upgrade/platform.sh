@@ -349,7 +349,7 @@ flash_section() {
 		dtb-$(to_upper $board)*) switch_layout boot; do_flash_partition ${sec} "0:DTB";;
 		u-boot*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:APPSBL";;
 		lkboot*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:APPSBL";;
-		ddr-$(to_upper $board_model)*) switch_layout boot; do_flash_ddr ${sec};;
+		ddr-$(to_upper $board_model)_*) switch_layout boot; do_flash_ddr ${sec};;
 		ddr-${board_model}-*) switch_layout boot; do_flash_failsafe_partition ${sec} "0:DDRCONFIG";;
 		tz*) switch_layout boot; do_flash_tz ${sec};;
 		tme*) switch_layout boot; do_flash_partition ${sec} "0:TME"; \

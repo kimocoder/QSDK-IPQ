@@ -215,6 +215,10 @@ do_flash_failsafe_ubi_volume() {
 	}
 	mtdpart=$(grep "\"${mtdname}\"" /proc/mtd | awk -F: '{print $1}')
 
+	if [ ! -n "$mtdpart" ]; then
+		echo "$mtdname is not available" && return
+	fi
+
 	ubiattach -p /dev/${mtdpart}
 
 	volumes=$(ls /sys/class/ubi/ubi0/ | grep ubi._.*)
@@ -298,6 +302,10 @@ get_fw_name() {
 		"8050a01")
 			wifi_ipq=$img"_qcn9000_qcn9224_dualmac"
 			;;
+		*)
+			wifi_ipq=$img"_qcn9000"
+			;;
+
 	esac
 
 	echo $wifi_ipq

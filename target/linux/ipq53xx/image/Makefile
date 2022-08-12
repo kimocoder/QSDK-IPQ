@@ -27,7 +27,7 @@ define Image/BuildKernel/FIT
 	$(call Image/BuildKernel/MkFIT,$(1), $(KDIR)/Image.lzma, $(DTS_DIR)/$(1).dtb,lzma,$(2),$(2))
 	$(CP) $(KDIR)/fit-$(1).itb $(BIN_DIR)/$(IMG_PREFIX)-$(1)-fit-uImage.itb
 	mkdir -p $(BIN_DIR)/dtbs/
-	$(CP) $(DTS_DIR)/devsoc-emulation*.dtb  $(BIN_DIR)/dtbs/
+	$(CP) $(DTS_DIR)/devsoc*.dtb  $(BIN_DIR)/dtbs/
 	$(CP) $(KDIR)/Image $(BIN_DIR)/dtbs/
 endef
 
@@ -66,19 +66,19 @@ define Image/BuildKernel/template
 endef
 
 define Image/BuildKernel/ipq53xx_32
-	$(foreach device, $(call FindDeviceTrees, devsoc-emulation), \
+	$(foreach device, $(call FindDeviceTrees, devsoc-), \
 		$(call Image/BuildKernel/$(1),$(device),$(IPQ53XX_32_KERNEL_LOADADDR));)
 
 	$(call Image/BuildKernel/MultiDTBFIT,ipq5332-mixx, \
-		$(call FindDeviceTrees, devsoc-emulation), $(IPQ53XX_32_KERNEL_LOADADDR))
+		$(call FindDeviceTrees, devsoc-), $(IPQ53XX_32_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel/generic
-	$(foreach device, $(call FindDeviceTrees, devsoc-emulation), \
+	$(foreach device, $(call FindDeviceTrees, devsoc-), \
 		$(call Image/BuildKernel/$(1),$(device),$(IPQ53XX_KERNEL_LOADADDR));)
 
 	$(call Image/BuildKernel/MultiDTBFIT,ipq5332-mixx, \
-		$(call FindDeviceTrees, devsoc-emulation), $(IPQ53XX_KERNEL_LOADADDR))
+		$(call FindDeviceTrees, devsoc-), $(IPQ53XX_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel

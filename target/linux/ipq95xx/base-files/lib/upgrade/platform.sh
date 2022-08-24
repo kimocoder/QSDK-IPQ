@@ -288,6 +288,8 @@ get_fw_name() {
 		"8050002"|\
 		"8050801"|\
 		"8050d01"|\
+		"8051001"|\
+		"8051101"|\
 		"8050c01"|\
 		"8050a01")
 			wifi_ipq=$img"_qcn9000_qcn9224_v2_dualmac"
@@ -484,6 +486,8 @@ platform_do_upgrade() {
 	qcom,ipq9574-ap-al02-c14 |\
 	qcom,ipq9574-ap-al02-c15 |\
 	qcom,ipq9574-ap-al02-c16 |\
+	qcom,ipq9574-ap-al02-c17 |\
+	qcom,ipq9574-ap-al02-c18 |\
 	qcom,ipq9574-db-al01-c1 |\
 	qcom,ipq9574-db-al01-c2 |\
 	qcom,ipq9574-db-al01-c3 |\

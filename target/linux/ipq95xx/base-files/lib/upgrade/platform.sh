@@ -281,26 +281,16 @@ get_fw_name() {
 	case "${machineid}" in
 		"8050301"|\
 		"8050601"|\
-		"8050701")
-			wifi_ipq="qcn9224"
-			;;
+		"8050701"|\
 		"8050501"|\
-		"8050b01")
-			wifi_ipq=$img"_qcn9224"
-			;;
+		"8050b01"|\
 		"8050102"|\
 		"8050002"|\
-		"8050801")
-			wifi_ipq="qcn9224_dualmac"
-			;;
-		"8050d01")
-			wifi_ipq=$img"_qcn9224_dualmac"
-			;;
-		"8050c01")
-			wifi_ipq=$img"_qcn9000_qcn9224"
-			;;
+		"8050801"|\
+		"8050d01"|\
+		"8050c01"|\
 		"8050a01")
-			wifi_ipq=$img"_qcn9000_qcn9224_dualmac"
+			wifi_ipq=$img"_qcn9000_qcn9224_v2_dualmac"
 			;;
 		*)
 			wifi_ipq=$img"_qcn9000"

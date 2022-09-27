@@ -21,7 +21,7 @@ RAMFS_COPY_DATA="/etc/fw_env.config /var/lock/fw_printenv.lock"
 RAMFS_COPY_BIN="/usr/bin/dumpimage /bin/mktemp /usr/sbin/mkfs.ubifs
 	/usr/sbin/ubiattach /usr/sbin/ubidetach /usr/sbin/ubiformat /usr/sbin/ubimkvol
 	/usr/sbin/ubiupdatevol /usr/bin/basename /bin/rm /usr/bin/find
-	/usr/sbin/mkfs.ext4 /usr/sbin/fw_printenv"
+	/usr/sbin/mkfs.ext4 /usr/sbin/fw_printenv /sbin/lsmod"
 
 get_full_section_name() {
 	local img=$1
@@ -276,6 +276,10 @@ get_fw_name() {
 	cat /proc/device-tree/model | grep -q 9574 && img="ipq9574"
 
 	wifi_ipq="ignored"
+	image_suffix="qcn9000_qcn9224_v2_dualmac"
+	if lsmod | grep ath1 > /dev/null 2>&1 ; then
+		image_suffix="qcn9224_v2"
+	fi
 	machineid=$(fw_printenv -l /tmp/. machid | cut -d '=' -f 2)
 
 	case "${machineid}" in
@@ -292,7 +296,7 @@ get_fw_name() {
 		"8051101"|\
 		"8050c01"|\
 		"8050a01")
-			wifi_ipq=$img"_qcn9000_qcn9224_v2_dualmac"
+			wifi_ipq="$img"_"$image_suffix"
 			;;
 		*)
 			wifi_ipq=$img"_qcn9000"

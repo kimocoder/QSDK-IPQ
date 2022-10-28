@@ -69,13 +69,14 @@ Index: u-boot-2018.03/tools/env/fw_env.c
  			/* End of range is reached */
  			fprintf (stderr,
  				 "Too few good blocks within range\n");
-@@ -986,15 +1013,18 @@ static int flash_write_buf(int dev, int
+@@ -1022,16 +1022,19 @@ static int flash_write_buf(int dev, int
  				   below offset */
  	off_t block_seek;	/* offset inside the erase block to the start
  				   of the data */
 +	off_t top_of_range;     /* end of the last block we may use */
  	loff_t blockstart;	/* running start of the current block -
  				   MEMGETBADBLOCK needs 64 bits */
+ 	int was_locked = 0;	/* flash lock flag */
  	int rc;
 +	int size;
  
@@ -88,7 +89,7 @@ Index: u-boot-2018.03/tools/env/fw_env.c
  		erase_len = blocklen;
  		blockstart = DEVOFFSET(dev);
  		block_seek = 0;
-@@ -1002,10 +1032,13 @@ static int flash_write_buf(int dev, int
+@@ -1039,10 +1042,13 @@ static int flash_write_buf(int dev, int
  	} else {
  		blocklen = DEVESIZE(dev);
  
@@ -103,8 +104,8 @@ Index: u-boot-2018.03/tools/env/fw_env.c
  
  		blockstart = erase_offset;
  
-@@ -1080,7 +1113,11 @@ static int flash_write_buf(int dev, int
- 		if (rc < 0)		/* block test failed */
+@@ -1117,7 +1123,11 @@ static int flash_write_buf(int dev, int
+ 		if (rc < 0)	/* block test failed */
  			return rc;
  
 -		if (blockstart + erasesize > environment_end(dev)) {
@@ -113,6 +114,6 @@ Index: u-boot-2018.03/tools/env/fw_env.c
 +
 +		size = find_mtd_size(fd);
 +		if ((blockstart + erasesize > top_of_range) || (size > 0 && top_of_range > size)) {
- 			fprintf (stderr, "End of range reached, aborting\n");
+ 			fprintf(stderr, "End of range reached, aborting\n");
  			return -1;
  		}

@@ -445,7 +445,14 @@ platform_do_upgrade() {
 	done
 
 	case "$board" in
-	qcom,devsoc-ap-emulation)
+	qcom,devsoc-ap-emulation |\
+	qcom,ipq5332-ap-mi01.1 |\
+	qcom,ipq5332-ap-mi01.2 |\
+	qcom,ipq5332-ap-mi01.4 |\
+	qcom,ipq5332-ap-mi01.6 |\
+	qcom,ipq5332-ap-mi01.7 |\
+	qcom,ipq5332-db-mi01.1 |\
+	qcom,ipq5332-db-mi02.1)
 		for sec in $(print_sections $1); do
 			flash_section ${sec}
 		done

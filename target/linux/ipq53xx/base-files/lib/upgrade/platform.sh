@@ -103,20 +103,8 @@ do_flash_mtd() {
 
 	local mtdpart_rootfs=$(grep "\"${mtdname_rootfs}\"" /proc/mtd | awk -F: '{print $1}')
 
-	# This switch is required only for QSPI NAND boot with 4K page size
-	# since PBL doesn't have 4K page support.
-	if [ $mtdname == "0:SBL1" -a -n $boot_layout -a -n $flash_type ]; then
-		mtd erase "/dev/${mtdpart}"
-		ubidetach -f -p /dev/${mtdpart_rootfs}
-		# Switch to 2K layout for flashing (writing) SBL partition
-		echo 1 > $boot_layout
-		dd if=/tmp/${bin}.bin bs=${pgsz} conv=sync | mtd write - "/dev/${mtdpart}"
-		# Switch back to 4K layout for flashing (writing) all other partitions
-		echo 0 > $boot_layout
-	else
-		[ -f "$UPGRADE_BACKUP" -a "$2" == "rootfs" ] && append="-j $UPGRADE_BACKUP"
-		dd if=/tmp/${bin}.bin bs=${pgsz} conv=sync | mtd $append -e "/dev/${mtdpart}" write - "/dev/${mtdpart}"
-	fi
+	[ -f "$UPGRADE_BACKUP" -a "$2" == "rootfs" ] && append="-j $UPGRADE_BACKUP"
+	dd if=/tmp/${bin}.bin bs=${pgsz} conv=sync | mtd $append -e "/dev/${mtdpart}" write - "/dev/${mtdpart}"
 }
 
 do_flash_emmc() {

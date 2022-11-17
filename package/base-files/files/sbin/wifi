@@ -137,6 +137,7 @@ _wifi_updown() {
 }
 
 wifi_updown() {
+	pre_wifi_updown
 	cmd=down
 	[ enable = "$1" ] && {
 		_wifi_updown disable "$2" "$3"
@@ -146,6 +147,7 @@ wifi_updown() {
 	}
 	ubus_wifi_cmd "$cmd" "$2"
 	_wifi_updown "$@"
+	post_wifi_updown
 }
 
 wifi_recover() {
@@ -154,9 +156,11 @@ wifi_recover() {
 }
 
 wifi_reload_legacy() {
+	pre_wifi_reload_legacy
 	_wifi_updown "disable" "$1" "$2" "$3" "$4"
 	scan_wifi
 	_wifi_updown "enable" "$1" "$2" "$3" "$4"
+	post_wifi_reload_legacy
 }
 
 wifi_reload() {
@@ -171,6 +175,7 @@ wifi_detect_notice() {
 }
 
 wifi_config() {
+	pre_wifi_config
 	[ ! -f /etc/config/wireless ] && touch /etc/config/wireless
 
 	for driver in $DRIVERS; do (
@@ -180,9 +185,23 @@ wifi_config() {
 			echo "$driver: Hardware detection not supported" >&2
 		fi
 	); done
+	post_wifi_config
 }
 
 wifi_unload() {
+	pre_wifi_unload
+	_wifi_updown "disable" "$1"
+	for driver in ${1:-$DRIVERS}; do (
+		if eval "type unload_$driver" 2>/dev/null >/dev/null; then
+			eval "unload_$driver" || echo "$driver: unload failed" >&2
+		else
+			echo "$driver: wifi unload not supported" >&2
+		fi
+	); done
+	post_wifi_unload
+}
+
+_wifi_unload() {
 	_wifi_updown "disable" "$1"
 	for driver in ${1:-$DRIVERS}; do (
 		if eval "type unload_$driver" 2>/dev/null >/dev/null; then
@@ -194,7 +213,8 @@ wifi_unload() {
 }
 
 wifi_load() {
-	wifi_unload
+	pre_wifi_load
+	_wifi_unload
 	for driver in ${1:-$DRIVERS}; do (
 		if eval "type load_$driver" 2>/dev/null >/dev/null; then
 			eval "load_$driver" "$2" || echo "$driver: load failed" >&2
@@ -203,6 +223,7 @@ wifi_load() {
 		fi
 	); done
 	_wifi_updown "enable" "$1" "$2"
+	post_wifi_load
 }
 
 start_net() {(

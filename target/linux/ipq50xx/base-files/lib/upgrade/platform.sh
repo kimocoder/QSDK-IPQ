@@ -216,7 +216,6 @@ do_flash_failsafe_partition() {
 
 	[ -f /proc/boot_info/$bootname/$mtdname/upgradepartition ] && {
 		default_mtd=$mtdname
-		mtdname=$(cat /proc/boot_info/$bootname/$mtdname/upgradepartition)
 		if [ "$bootname" = "bootconfig0" ]; then
 			primaryboot=$(cat /proc/boot_info/bootconfig1/$default_mtd/primaryboot)
 		else
@@ -240,6 +239,15 @@ do_flash_failsafe_partition() {
 			fi
 		fi
 	}
+
+	local age0=$(cat /proc/boot_info/bootconfig0/age)
+	local age1=$(cat /proc/boot_info/bootconfig1/age)
+
+	if [ $age0 -le $age1 ]; then
+		mtdname=$(cat /proc/boot_info/bootconfig1/$mtdname/upgradepartition)
+	else
+		mtdname=$(cat /proc/boot_info/bootconfig0/$mtdname/upgradepartition)
+	fi
 
 	emmcblock="$(find_mmc_part "$mtdname")"
 

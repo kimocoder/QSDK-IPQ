@@ -219,8 +219,10 @@ do_flash_failsafe_partition() {
 		mtdname=$(cat /proc/boot_info/$bootname/$mtdname/upgradepartition)
 		if [ "$bootname" = "bootconfig0" ]; then
 			primaryboot=$(cat /proc/boot_info/bootconfig1/$default_mtd/primaryboot)
+			bootname="bootconfig1"
 		else
 			primaryboot=$(cat /proc/boot_info/bootconfig0/$default_mtd/primaryboot)
+			bootname="bootconfig0"
 		fi
 		# Try mode
 		if [ -e /proc/upgrade_info/trybit ]; then
@@ -266,8 +268,10 @@ do_flash_ubi() {
 	[ -f /proc/boot_info/$btname/$mtdname/upgradepartition ] && {
 		if [ "$btname" = "bootconfig0" ]; then
 			primaryboot=$(cat /proc/boot_info/bootconfig1/$mtdname/primaryboot)
+			btname="bootconfig1"
 		else
 			primaryboot=$(cat /proc/boot_info/bootconfig0/$mtdname/primaryboot)
+			btname="bootconfig0"
 		fi
 
 		#Try mode
@@ -596,9 +600,11 @@ platform_do_upgrade() {
 		#Try mode
 		if [ -e /proc/upgrade_info/trybit ]; then
 			if age_check ; then
-                        	do_flash_bootconfig bootconfig0 "0:BOOTCONFIG"
+				echo $(cat /proc/boot_info/bootconfig0/age) > /proc/boot_info/bootconfig1/age
+                        	do_flash_bootconfig bootconfig1 "0:BOOTCONFIG"
 			else
-				do_flash_bootconfig bootconfig1 "0:BOOTCONFIG1"
+				echo $(cat /proc/boot_info/bootconfig1/age) > /proc/boot_info/bootconfig0/age
+				do_flash_bootconfig bootconfig0 "0:BOOTCONFIG1"
 			fi
 		else
 			do_flash_bootconfig bootconfig0 "0:BOOTCONFIG"

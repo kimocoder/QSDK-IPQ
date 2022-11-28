@@ -589,6 +589,7 @@ platform_do_upgrade() {
 	qcom,ipq9574-ap-al02-c16 |\
 	qcom,ipq9574-ap-al02-c17 |\
 	qcom,ipq9574-ap-al02-c18 |\
+	qcom,ipq9574-ap-al02-c19 |\
 	qcom,ipq9574-db-al01-c1 |\
 	qcom,ipq9574-db-al01-c2 |\
 	qcom,ipq9574-db-al01-c3 |\

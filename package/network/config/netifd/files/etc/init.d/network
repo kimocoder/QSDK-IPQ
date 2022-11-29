@@ -12,7 +12,29 @@ init_switch() {
 	setup_switch
 }
 
+is_kmodloader_done()
+{
+	ath12k="/etc/modules.d/ath12k"
+	is_mlo=$(grep "mlo_capable" $ath12k)
+	if [ ! -z "$is_mlo" ]; then
+		is_ds_enabled=$(sed -r 's/.*mlo_capable=(\S+).*/\1/' $ath12k)
+		if [ $is_ds_enabled -eq 2 ]; then
+			counter=0
+			count=`ps | grep -c kmodloader`
+			echo "Waiting for module load to complete to start network" >/dev/console
+			while [ $count -gt 1 ] && [ ! -f /tmp/kmodloader_done ] && [ "$counter" -le 30 ]
+			do
+				count=`ps | grep -c kmodloader`
+				counter=$((counter+1))
+				sleep 1
+			done
+			echo "Modules load is complete to start network" >/dev/console
+		fi
+	fi
+}
+
 start_service() {
+	is_kmodloader_done
 	init_switch
 
 	procd_open_instance

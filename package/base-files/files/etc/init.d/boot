@@ -40,6 +40,7 @@ boot() {
 	uci_apply_defaults
 	sync
 	nice -n -19 /sbin/kmodloader
+	touch /tmp/kmodloader_done
 	
 	# temporary hack until configd exists
 	/sbin/reload_config

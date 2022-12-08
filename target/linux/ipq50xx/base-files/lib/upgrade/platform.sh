@@ -216,7 +216,18 @@ do_flash_failsafe_partition() {
 
 	[ -f /proc/boot_info/$bootname/$mtdname/upgradepartition ] && {
 		default_mtd=$mtdname
-		mtdname=$(cat /proc/boot_info/$bootname/$mtdname/upgradepartition)
+		if [ -e /proc/upgrade_info/trybit ]; then
+			#Trymode
+			if [ $age0 -le $age1 ]; then
+				mtdname=$(cat /proc/boot_info/bootconfig1/$mtdname/upgradepartition)
+			else
+				mtdname=$(cat /proc/boot_info/bootconfig0/$mtdname/upgradepartition)
+			fi
+		else
+			#Ordinary mode
+			mtdname=$(cat /proc/boot_info/$bootname/$mtdname/upgradepartition)
+		fi
+
 		if [ "$bootname" = "bootconfig0" ]; then
 			primaryboot=$(cat /proc/boot_info/bootconfig1/$default_mtd/primaryboot)
 			bootname="bootconfig1"

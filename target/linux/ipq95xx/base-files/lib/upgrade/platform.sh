@@ -386,7 +386,7 @@ get_fw_name() {
 	wifi_ipq="ignored"
 	image_suffix="qcn9000_qcn9224_v2_dualmac"
 	if lsmod | grep ath1 > /dev/null 2>&1 ; then
-		image_suffix="qcn9224_v2"
+		image_suffix="qcn9000_qcn9224_v2_dualmac"
 	fi
 	machineid=$(fw_printenv -l /tmp/. machid | cut -d '=' -f 2)
 

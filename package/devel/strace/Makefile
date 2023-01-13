@@ -33,7 +33,7 @@ include $(INCLUDE_DIR)/package.mk
 
 HOST_CFLAGS += -I$(LINUX_DIR)/user_headers/include
 
-ifeq ($(ARCH),aarch64)
+ifneq (, $(findstring $(ARCH),aarch64 aarch64_be))
   CONFIGURE_ARGS += --enable-mpers=check
 endif
 

@@ -123,7 +123,7 @@ define Package/valgrind/install
 		$(PKG_INSTALL_DIR)/usr/lib/valgrind/vgpreload_memcheck*.so \
 		$(1)/usr/lib/valgrind/
 
-ifneq ($(ARCH),aarch64)
+ifeq (, $(findstring $(ARCH), aarch64 aarch64_be))
 	$(CP) \
 		$(PKG_INSTALL_DIR)/usr/lib/valgrind/$(CPU)-*.xml \
 		$(1)/usr/lib/valgrind/

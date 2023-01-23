@@ -371,11 +371,31 @@ image_is_nand()
 }
 
 get_fw_name() {
-	cat /proc/device-tree/model | grep -q 5322 && img="ipq5322"
+	cat /proc/device-tree/model | grep -q 5332 && img="ipq5332"
 
 	wifi_ipq="ignored"
+	image_suffix="qcn9224_v2_single_dualmac"
 	machineid=$(fw_printenv -l /tmp/. machid | cut -d '=' -f 2)
 
+	case "${machineid}" in
+		"F060000"|\
+		"8060000"|\
+		"8060001"|\
+		"8060002"|\
+		"8060003"|\
+		"8060004"|\
+		"8060006"|\
+		"8060007"|\
+		"1060001"|\
+		"1060003"|\
+		"1060002")
+			wifi_ipq="$img"_"$image_suffix"
+			;;
+		*)
+			wifi_ipq=$img"_qcn9224_v2_single_dualmac_qcn9160"
+			;;
+
+	esac
 
 	echo $wifi_ipq
 }

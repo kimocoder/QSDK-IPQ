@@ -565,6 +565,7 @@ platform_do_upgrade() {
 	qcom,devsoc-ap-emulation |\
 	qcom,ipq5332-ap-mi01.1 |\
 	qcom,ipq5332-ap-mi01.2 |\
+	qcom,ipq5332-ap-mi01.2-qcn9160-c1 |\
 	qcom,ipq5332-ap-mi01.4 |\
 	qcom,ipq5332-ap-mi01.6 |\
 	qcom,ipq5332-ap-mi01.7 |\

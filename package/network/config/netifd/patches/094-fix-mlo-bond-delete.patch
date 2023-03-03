@@ -12,17 +12,16 @@ Index: netifd-2021-01-09-753c351b/system-linux.c
 ===================================================================
 --- netifd-2021-01-09-753c351b.orig/system-linux.c
 +++ netifd-2021-01-09-753c351b/system-linux.c
-@@ -1141,12 +1141,43 @@ out:
+@@ -1141,6 +1141,32 @@ out:
  }
-
+ 
  /*
-+ * system_get_bonding_mode()
-+ *      Get bond mode
++ * system_is_bonding_mode_mlo()
++ *     	Check if iface is bond MLO or not
 + */
-+static char *system_get_bonding_mode(const char *name, char *buf, const size_t buf_sz)
++static bool system_is_bonding_mode_mlo(const char *name, char *buf, const size_t buf_sz)
 +{
 +	int fd = -1;
-+	char *path;
 +
 +	snprintf(buf, buf_sz, "/sys/class/net/%s/bonding/mode", name);
 +	fd = open(buf, O_RDONLY);
@@ -35,48 +34,42 @@ Index: netifd-2021-01-09-753c351b/system-linux.c
 +		return NULL;
 +	}
 +
-+	buf[len] = 0;
-+	path = strrchr(buf, '/');
-+	if (!path) {
-+		close(fd);
-+		return NULL;
++	if (strstr(buf, "mlo") != NULL) {
++		return true;
 +	}
 +
-+	close(fd);
-+	return path + 1;
++	return false;
 +}
 +
 +/*
   * Clear bridge (membership) state and bring down device
   */
  void system_if_clear_state(struct device *dev)
- {
- 	static char buf[256];
--	char *bridge;
-+	char *bridge, *mode;
- 	struct device *bonding;
-
- 	device_set_ifindex(dev, system_if_resolve(dev));
-@@ -1155,10 +1186,19 @@ void system_if_clear_state(struct device
+@@ -1153,15 +1179,21 @@ void system_if_clear_state(struct device
+ 
+ 	if (dev->external || !dev->ifindex)
  		return;
-
+-
  	if (system_is_bonding(dev->ifname, buf, sizeof(buf))) {
 -		D(SYSTEM, "Delete existing bonding named '%s'\n", dev->ifname);
 -		system_bonding_delbonding(dev);
-+
+-		return;
+-	}
+ 
 +		/*
 +		 * Do not delete bond netdevice with MLO type.
++		 * As add/delete is handled by wifi driver.
 +		*/
-+		mode = system_get_bonding_mode(dev->ifname, buf, sizeof(buf));
-+		if (strstr(mode, "mlo") == NULL) {
++		if (system_is_bonding_mode_mlo(dev->ifname, buf, sizeof(buf))) {
++			D(SYSTEM, "Do not delete mlo bonding named '%s'\n", dev->ifname);
++		} else {
 +			D(SYSTEM, "Delete existing bonding named '%s'\n", dev->ifname);
 +			system_bonding_delbonding(dev);
-+		} else {
-+			D(SYSTEM, "Do not delete mlo bonding named '%s'\n", dev->ifname);
 +		}
- 		return;
--	}
++		return;
 +        }
-
  	system_if_flags(dev->ifname, 0, IFF_UP);
-
+-
+ 	if (system_is_bridge(dev->ifname, buf, sizeof(buf))) {
+ 		D(SYSTEM, "Delete existing bridge named '%s'\n", dev->ifname);
+ 		system_bridge_delbr(dev);

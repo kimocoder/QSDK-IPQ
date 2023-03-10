@@ -1098,3 +1098,7 @@ config HAS_IOMEM
 config KERNEL_CPU_THERMAL
         bool "Enable CPU cooling device support"
         default n
+
+config KERNEL_CPU_BIG_ENDIAN
+        bool "Enable Big Endian mode"
+        default n

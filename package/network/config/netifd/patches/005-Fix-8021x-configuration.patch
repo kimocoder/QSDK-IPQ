@@ -26,7 +26,7 @@ diff -Nur a/scripts/netifd-wireless.sh netifd-2019-08-05-5e02f944/scripts/netifd
 +	# Standlone TKIP is no longer allowed
 +	# TKIP alone is now prohibited by WFA so the only
 +	# combination left must be CCMP+TKIP (wpa=3)
-+	[ "$wpa_pairwise" = "TKIP" ] && {
++	[ "$wpa_cipher" = "TKIP" ] && {
 +		wpa=3
 +		wpa_cipher="CCMP TKIP"
 +	}

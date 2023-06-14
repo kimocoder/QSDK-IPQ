@@ -1,0 +1,24 @@
+From dbb3643d8e7e4e9c18ffe36d74a199b24d006b52 Mon Sep 17 00:00:00 2001
+From: Sathishkumar Kumar <quic_satku@quicinc.com>
+Date: Wed, 14 Jun 2023 15:19:40 +0530
+Subject: [PATCH] tools/scons: Fix build error with python3
+
+This change adds support to use scons with python3,
+to fix below build error:
+AttributeError: module 'collections' has no attribute 'Callable':
+
+Change-Id: I1959038af4dd5261477d5ecad6dd27779f061184
+Signed-off-by: Sathishkumar Kumar <quic_satku@quicinc.com>
+---
+
+--- a/engine/SCons/Tool/__init__.py
++++ b/engine/SCons/Tool/__init__.py
+@@ -376,7 +376,7 @@ def _call_linker_cb(env, callback, args,
+         if Verbose:
+             print('_call_linker_cb: env["LINKCALLBACKS"][%r] found' % callback)
+             print('_call_linker_cb: env["LINKCALLBACKS"][%r]=%r' % (callback, cbfun))
+-        if isinstance(cbfun, collections.Callable):
++        if isinstance(cbfun, collections.abc.Callable):
+             if Verbose:
+                 print('_call_linker_cb: env["LINKCALLBACKS"][%r] is callable' % callback)
+             result = cbfun(env, *args)

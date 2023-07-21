@@ -404,6 +404,7 @@ get_fw_name() {
 		"8050d01"|\
 		"8051001"|\
 		"8051101"|\
+		"8051301"|\
 		"8050c01"|\
 		"8050a01")
 			wifi_ipq="$img"_"$image_suffix"
@@ -610,7 +611,8 @@ platform_do_upgrade() {
 	qcom,ipq9574-db-al01-c3 |\
 	qcom,ipq9574-db-al02-c1 |\
 	qcom,ipq9574-db-al02-c2 |\
-	qcom,ipq9574-db-al02-c3)
+	qcom,ipq9574-db-al02-c3 |\
+	qcom,ipq9574-rdp467)
 		for sec in $(print_sections $1); do
 			flash_section ${sec}
 		done

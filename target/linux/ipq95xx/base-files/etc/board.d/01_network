@@ -54,7 +54,8 @@ ipq95xx_setup_interfaces()
 	qcom,ipq9574-db-al01-c3 |\
 	qcom,ipq9574-db-al02-c1 |\
 	qcom,ipq9574-db-al02-c2 |\
-	qcom,ipq9574-db-al02-c3)
+	qcom,ipq9574-db-al02-c3 |\
+	qcom,ipq9574-rdp467)
 		ucidef_set_interfaces_lan_wan "eth1 eth2 eth3 eth4 eth5" "eth0"
 		;;
 	qcom,ipq9574-ap-al03-c1 |\

@@ -328,6 +328,7 @@ case "$1" in
 	unload) wifi_unload "$2";;
 	recover) wifi_recover "$2";;
 	mlo) mlo "$@";;
+	standby) ubus call network reload; standby_wifi_radio_updown "$@" ;;
         multi_up|\
         multi_down) ubus call network reload; multi_radio_wifi_updown "$@";;
 	--help|help) usage;;

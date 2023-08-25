@@ -146,8 +146,11 @@ $(eval $(call SetupHostCommand,perl,Please install Perl 5.x, \
 
 $(eval $(call CleanupPython3))
 
-$(eval $(call SetupHostCommand,python,Please install Python 2.x, \
-	python2.7 -V 2>&1 | grep 'Python 2.7', \
+$(eval $(call SetupHostCommand,python,Please install Python 3.x, \
+	python3.10 -V 2>&1 | grep 'Python 3.10', \
+	python3 -V 2>&1 | grep 'Python 3', \
+	python -V 2>&1 | grep 'Python 3', \
+	python2.7 -V 2>&1 | grep 'Python 2.7' \
 	python2 -V 2>&1 | grep 'Python 2', \
 	python -V 2>&1 | grep 'Python 2'))
 

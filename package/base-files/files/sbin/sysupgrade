@@ -23,6 +23,7 @@ export NEED_IMAGE=
 export HELP=0
 export FORCE=0
 export TEST=0
+export ALIVE=0
 export UMOUNT_ETCBACKUP_DIR=0
 
 # parse options
@@ -37,6 +38,7 @@ while [ -n "$1" ]; do
 		-p) export SAVE_PARTITIONS=0;;
 		-k) export SAVE_INSTALLED_PKGS=1;;
 		-u) export SKIP_UNCHANGED=1;;
+		-a|--alive) export ALIVE=1;;
 		-b|--create-backup) export CONF_BACKUP="$2" NEED_IMAGE=1; shift;;
 		-r|--restore-backup) export CONF_RESTORE="$2" NEED_IMAGE=1; shift;;
 		-l|--list-backup) export CONF_BACKUP_LIST=1;;
@@ -58,6 +60,9 @@ export CONF_TAR=/tmp/sysupgrade.tgz
 export ETCBACKUP_DIR=/etc/backup
 export INSTALLED_PACKAGES=${ETCBACKUP_DIR}/installed_packages.txt
 
+export ARGV="$*"
+export ARGC="$#"
+
 IMAGE="$1"
 
 [ -z "$IMAGE" -a -z "$NEED_IMAGE" -a $CONF_BACKUP_LIST -eq 0 -o $HELP -gt 0 ] && {
@@ -72,6 +77,7 @@ upgrade-option:
 	-o           attempt to preserve all changed files in /, except those
 	             from packages but including changed confs.
 	-u           skip from backup files that are equal to those in /rom
+	-a           alive upgrade valid only when trymode is enabled
 	-n           do not save configuration over reflash
 	-p           do not attempt to restore the partition table after flash.
 	-k           include in backup a list of current installed packages at
@@ -286,6 +292,8 @@ if [ -n "$CONF_RESTORE" ]; then
 	exit $?
 fi
 
+echo $ALIVE > /tmp/.alive_upgrade
+
 type platform_check_image >/dev/null 2>/dev/null || {
 	echo "Firmware upgrade is not implemented for this platform." >&2
 	exit 1
@@ -351,27 +359,31 @@ if [ $TEST -eq 1 ]; then
 	exit 0
 fi
 
-install_bin /sbin/upgraded
-v "Commencing upgrade. Closing all shell sessions."
-
-COMMAND='/lib/upgrade/do_stage2'
-
-if [ -n "$FAILSAFE" ]; then
-	printf '%s\x00%s\x00%s' "$RAM_ROOT" "$IMAGE" "$COMMAND" >/tmp/sysupgrade
-	lock -u /tmp/.failsafe
+if [ $ALIVE -eq 1 ]; then
+	do_upgrade
 else
-	force_attr=""
-	[ $FORCE -eq 1 ] && force_attr="\"force\": true,"
-	backup_attr=""
-	[ $SAVE_CONFIG -eq 1 ] && backup_attr="\"backup\": $(json_string $CONF_TAR),"
-	ubus call system sysupgrade "{
-		\"prefix\": $(json_string "$RAM_ROOT"),
-		\"path\": $(json_string "$IMAGE"),
-		$force_attr
-		$backup_attr
-		\"command\": $(json_string "$COMMAND"),
-		\"options\": {
-			\"save_partitions\": $SAVE_PARTITIONS
-		}
-	}"
+	install_bin /sbin/upgraded
+	v "Commencing upgrade. Closing all shell sessions."
+
+	COMMAND='/lib/upgrade/do_stage2'
+
+	if [ -n "$FAILSAFE" ]; then
+		printf '%s\x00%s\x00%s' "$RAM_ROOT" "$IMAGE" "$COMMAND" >/tmp/sysupgrade
+		lock -u /tmp/.failsafe
+	else
+		force_attr=""
+		[ $FORCE -eq 1 ] && force_attr="\"force\": true,"
+		backup_attr=""
+		[ $SAVE_CONFIG -eq 1 ] && backup_attr="\"backup\": $(json_string $CONF_TAR),"
+		ubus call system sysupgrade "{
+			\"prefix\": $(json_string "$RAM_ROOT"),
+			\"path\": $(json_string "$IMAGE"),
+			$force_attr
+			$backup_attr
+			\"command\": $(json_string "$COMMAND"),
+			\"options\": {
+				\"save_partitions\": $SAVE_PARTITIONS
+			}
+		}"
+	fi
 fi

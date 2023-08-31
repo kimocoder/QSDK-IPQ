@@ -635,7 +635,7 @@ platform_do_upgrade() {
 	qcom,ipq9574-db-al02-c1 |\
 	qcom,ipq9574-db-al02-c2 |\
 	qcom,ipq9574-db-al02-c3 |\
-	qcom,ipq9574-rdp467)
+	qcom,ipq9574-ap-rdp467)
 		for sec in $(print_sections $1); do
 			flash_section ${sec}
 		done

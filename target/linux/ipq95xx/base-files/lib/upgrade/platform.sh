@@ -627,6 +627,7 @@ platform_do_upgrade() {
 	qcom,ipq9574-ap-al02-c17 |\
 	qcom,ipq9574-ap-al02-c18 |\
 	qcom,ipq9574-ap-al02-c19 |\
+	qcom,ipq9574-ap-al02-c20 |\
 	qcom,ipq9574-ap-al05 |\
 	qcom,ipq9574-ap-al06 |\
 	qcom,ipq9574-db-al01-c1 |\
@@ -634,8 +635,7 @@ platform_do_upgrade() {
 	qcom,ipq9574-db-al01-c3 |\
 	qcom,ipq9574-db-al02-c1 |\
 	qcom,ipq9574-db-al02-c2 |\
-	qcom,ipq9574-db-al02-c3 |\
-	qcom,ipq9574-ap-rdp467)
+	qcom,ipq9574-db-al02-c3)
 		for sec in $(print_sections $1); do
 			flash_section ${sec}
 		done

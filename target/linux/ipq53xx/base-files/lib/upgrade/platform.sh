@@ -381,6 +381,7 @@ get_fw_name() {
 		"F060000"|\
 		"8060000"|\
 		"8060001"|\
+		"8060201"|\
 		"8060002"|\
 		"8060003"|\
 		"8060004"|\
@@ -564,6 +565,7 @@ platform_do_upgrade() {
 	case "$board" in
 	qcom,devsoc-ap-emulation |\
 	qcom,ipq5332-ap-mi01.2 |\
+	qcom,ipq5332-ap-mi01.2-c2 |\
 	qcom,ipq5332-ap-mi01.2-qcn9160-c1 |\
 	qcom,ipq5332-ap-mi01.3 |\
 	qcom,ipq5332-ap-mi01.4 |\

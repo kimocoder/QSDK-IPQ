@@ -25,6 +25,7 @@ ipq53xx_setup_interfaces()
 		ucidef_set_interfaces_lan_wan "eth1" "eth0"
 			;;
 	qcom,ipq5332-ap-mi01.2 |\
+	qcom,ipq5332-ap-mi01.2-c2 |\
 	qcom,ipq5332-ap-mi01.2-qcn9160-c1 |\
 	qcom,ipq5332-ap-mi01.3 |\
 	qcom,ipq5332-ap-mi01.4 |\

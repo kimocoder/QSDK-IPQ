@@ -1,0 +1,26 @@
+From 924111bb8de6f6a9a6fed37db83961610c4cddd2 Mon Sep 17 00:00:00 2001
+From: Lei Wei <quic_leiwei@quicinc.com>
+Date: Thu, 21 Dec 2023 13:05:50 +0800
+Subject: [PATCH] nat46: fix sleep calltrace warning in proc file show
+
+Signed-off-by: Lei Wei <quic_leiwei@quicinc.com>
+---
+ nat46/modules/nat46-netdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nat46/modules/nat46-netdev.c b/nat46/modules/nat46-netdev.c
+index 4e9ca6d..94c95a7 100644
+--- a/nat46/modules/nat46-netdev.c
++++ b/nat46/modules/nat46-netdev.c
+@@ -348,7 +348,7 @@ void nat64_show_all_configs(struct seq_file *m) {
+ 			nat46_instance_t *nat46 = netdev_nat46_instance(dev);
+ 			int buflen = 1024;
+ 			int ipair = -1;
+-			char *buf = kmalloc(buflen+1, GFP_KERNEL);
++			char *buf = kmalloc(buflen+1, GFP_ATOMIC);
+ 			seq_printf(m, "add %s\n", dev->name);
+ 			if(buf) {
+ 				for(ipair = 0; ipair < nat46->npairs; ipair++) {
+-- 
+2.42.0
+

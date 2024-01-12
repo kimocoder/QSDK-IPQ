@@ -238,7 +238,6 @@ define KernelPackage/dm
 	CONFIG_DM_LOG_WRITES=n \
 	CONFIG_MD=y \
 	CONFIG_BLK_DEV_DM=y \
-	CONFIG_DM_REQ_CRYPT \
 	CONFIG_DM_CRYPT \
 	CONFIG_DM_MIRROR
   FILES:=$(LINUX_DIR)/drivers/md/dm-*.ko

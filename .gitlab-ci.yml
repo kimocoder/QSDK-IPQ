@@ -1,5 +1,0 @@
-include:
-  - remote: https://gitlab.com/ynezz/openwrt-ci/raw/master/openwrt-ci/gitlab/main.yml
-
-various native checks:
-  extends: .openwrt-native-build
